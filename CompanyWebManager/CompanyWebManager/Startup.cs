@@ -12,6 +12,8 @@ using Microsoft.Extensions.Logging;
 using CompanyWebManager.Data;
 using CompanyWebManager.Models;
 using CompanyWebManager.Services;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace CompanyWebManager
 {
@@ -47,7 +49,11 @@ namespace CompanyWebManager
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.SslPort = 44317;
+                options.Filters.Add(new RequireHttpsAttribute());
+            });
 
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
@@ -74,6 +80,12 @@ namespace CompanyWebManager
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseFacebookAuthentication(new FacebookOptions()
+            {
+                AppId = Configuration["Authentication:Facebook:AppId"],
+                AppSecret = Configuration["Authentication:Facebook:AppSecret"]
+            });
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
 
