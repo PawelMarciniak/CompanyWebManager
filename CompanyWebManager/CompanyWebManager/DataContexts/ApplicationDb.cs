@@ -5,12 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.Models;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace CompanyWebManager.Data
+namespace CompanyWebManager.DataContexts
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDb : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        public ApplicationDb(DbContextOptions<ApplicationDb> options)
             : base(options)
         {
         }
@@ -18,6 +19,13 @@ namespace CompanyWebManager.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            
+
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
 
             builder.Entity<ApplicationUser>().Ignore(c => c.AccessFailedCount)
                                             .Ignore(c => c.LockoutEnabled)
@@ -37,6 +45,8 @@ namespace CompanyWebManager.Data
             builder.Entity<Address>().ToTable("Addresses");
             builder.Entity<Voivodeship>().ToTable("Voivodeships");
             builder.Entity<Country>().ToTable("Countries");
+
+
         }
 
         public DbSet<Company> Companies { get; set; }

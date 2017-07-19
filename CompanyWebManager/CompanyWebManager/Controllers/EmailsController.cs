@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using CompanyWebManager.Data;
+using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
 
 namespace CompanyWebManager.Controllers
 {
     public class EmailsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDb _context;
 
-        public EmailsController(ApplicationDbContext context)
+        public EmailsController(ApplicationDb context)
         {
             _context = context;    
         }
@@ -22,7 +22,7 @@ namespace CompanyWebManager.Controllers
         // GET: Emails
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Email.ToListAsync());
+            return View(await _context.Emails.ToListAsync());
         }
 
         // GET: Emails/Details/5
@@ -33,7 +33,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            var email = await _context.Email
+            var email = await _context.Emails
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (email == null)
             {
@@ -73,7 +73,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            var email = await _context.Email.SingleOrDefaultAsync(m => m.ID == id);
+            var email = await _context.Emails.SingleOrDefaultAsync(m => m.ID == id);
             if (email == null)
             {
                 return NotFound();
@@ -124,7 +124,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            var email = await _context.Email
+            var email = await _context.Emails
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (email == null)
             {
@@ -139,15 +139,15 @@ namespace CompanyWebManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var email = await _context.Email.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Email.Remove(email);
+            var email = await _context.Emails.SingleOrDefaultAsync(m => m.ID == id);
+            _context.Emails.Remove(email);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
         private bool EmailExists(int id)
         {
-            return _context.Email.Any(e => e.ID == id);
+            return _context.Emails.Any(e => e.ID == id);
         }
     }
 }

@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Data.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170719193318_InitDBTables")]
+    partial class InitDBTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

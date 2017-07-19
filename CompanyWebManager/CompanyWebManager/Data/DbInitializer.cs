@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CompanyWebManager.Models;
+using CompanyWebManager.DataContexts;
 
 namespace CompanyWebManager.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(ApplicationDbContext context)
+        public static void Initialize(ApplicationDb context)
         {
             context.Database.EnsureCreated();
 
