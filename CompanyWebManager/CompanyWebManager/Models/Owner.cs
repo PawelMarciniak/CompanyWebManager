@@ -24,6 +24,8 @@ namespace CompanyWebManager.Models
         public ApplicationUser User { get; set; }
         public Address Address { get; set; }
 
+        public ICollection<Email> Emails { get; set; }
+
         #endregion   
     }
 }

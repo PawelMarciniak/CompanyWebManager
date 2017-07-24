@@ -19,7 +19,7 @@ namespace CompanyWebManager.Controllers
 
             if (isAuthenticated)
             {
-                return View();
+                return RedirectToAction("Index", "Emails", new { area = "" });
             }
             else
             {

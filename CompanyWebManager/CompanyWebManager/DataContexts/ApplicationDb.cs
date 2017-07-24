@@ -40,11 +40,11 @@ namespace CompanyWebManager.DataContexts
 
             builder.Entity<Company>().ToTable("Companies");
             builder.Entity<Client>().ToTable("Clients");
-            builder.Entity<Email>().ToTable("Emails");
             builder.Entity<Owner>().ToTable("Owners");
             builder.Entity<Address>().ToTable("Addresses");
             builder.Entity<Voivodeship>().ToTable("Voivodeships");
             builder.Entity<Country>().ToTable("Countries");
+            builder.Entity<Email>().ToTable("Emails");
 
 
         }

@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using CompanyWebManager.DataContexts;
 
-namespace CompanyWebManager.Data.Migrations
+namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    [Migration("20170719193318_InitDBTables")]
-    partial class InitDBTables
+    partial class ApplicationDbModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -138,15 +137,19 @@ namespace CompanyWebManager.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Message");
+                    b.Property<string>("Message");
 
-                    b.Property<int>("ReceivedTime");
+                    b.Property<int>("OwnerID");
+
+                    b.Property<DateTime>("ReceivedTime");
 
                     b.Property<string>("Sender");
 
                     b.Property<string>("Title");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("OwnerID");
 
                     b.ToTable("Emails");
                 });
@@ -300,8 +303,7 @@ namespace CompanyWebManager.Data.Migrations
                 {
                     b.HasOne("CompanyWebManager.Models.Country", "Country")
                         .WithMany()
-                        .HasForeignKey("CountryID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CountryID");
 
                     b.HasOne("CompanyWebManager.Models.Voivodeship", "Voivodeship")
                         .WithMany()
@@ -312,29 +314,32 @@ namespace CompanyWebManager.Data.Migrations
                 {
                     b.HasOne("CompanyWebManager.Models.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CompanyID");
                 });
 
             modelBuilder.Entity("CompanyWebManager.Models.Company", b =>
                 {
                     b.HasOne("CompanyWebManager.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressID");
 
                     b.HasOne("CompanyWebManager.Models.Owner", "Owner")
                         .WithMany()
-                        .HasForeignKey("OwnerID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("OwnerID");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Email", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Owner", "Owner")
+                        .WithMany("Emails")
+                        .HasForeignKey("OwnerID");
                 });
 
             modelBuilder.Entity("CompanyWebManager.Models.Owner", b =>
                 {
                     b.HasOne("CompanyWebManager.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressID");
 
                     b.HasOne("CompanyWebManager.Models.ApplicationUser", "User")
                         .WithMany()
@@ -345,32 +350,28 @@ namespace CompanyWebManager.Data.Migrations
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Claims")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RoleId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserClaim<string>", b =>
                 {
                     b.HasOne("CompanyWebManager.Models.ApplicationUser")
                         .WithMany("Claims")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserLogin<string>", b =>
                 {
                     b.HasOne("CompanyWebManager.Models.ApplicationUser")
                         .WithMany("Logins")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("RoleId");
                 });
         }
     }
