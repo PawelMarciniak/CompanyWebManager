@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using CompanyWebManager.Models;
 using MailKit.Net.Smtp;
 using MailKit;
+using MailKit.Net.Imap;
 using MailKit.Security;
+using Microsoft.CodeAnalysis.Emit;
 using MimeKit;
 
 
@@ -16,30 +18,77 @@ namespace CompanyWebManager.Helpers
 
         //public Email
 
-        public async Task SendEmailAsync(string emailFrom, string emailTo, string subject, string message)
+        public async Task SendEmail(string emailFrom, List<string> emailTo, string subject, string message, string login, string pass)
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(emailFrom));
-            emailMessage.To.Add(new MailboxAddress(emailTo));
+
+            emailMessage.To.Add(new MailboxAddress(emailTo[0]));
+
+            if (!(emailTo.Count > 1))
+            {
+                foreach (var email in emailTo.Skip(1))
+                {
+                    emailMessage.Bcc.Add(new MailboxAddress(email));
+                }
+            }
+            
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart("plain") { Text = message };
 
             using (var client = new SmtpClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
-                client.Connect("smtp.gmail.com", 465, true);
 
-                // Note: since we don't have an OAuth2 token, disable
-                // the XOAUTH2 authentication mechanism.
-                //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                 await client.ConnectAsync("smtp.gmail.com", 587);
+                //client.Authenticate(login, pass);
+                await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                await client.SendAsync(emailMessage);
+                await client.DisconnectAsync(true);
+            }
+        }
 
-                // Note: only needed if the SMTP server requires authentication
-                client.Authenticate("pawel.marciniak92@gmail.com", "zxcDsa!2");
+        public async Task ReceiveEmails(string login, string pass)
+        {
+            List<Email> messages = new List<Email>();
 
-                client.Send(emailMessage);
+            using (var client = new ImapClient())
+            {
+                // For demo-purposes, accept all SSL certificates
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                await client.ConnectAsync("imap.gmail.com", 993, true);
+                //await client.AuthenticateAsync(login, pass);
+                await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+
+                var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
+
+                for (int i = 0; i < inbox.Unread; i++)
+                {
+                    var message  = inbox.GetMessage(i);
+
+                    messages.Add(MapEmails(message));
+
+                    //Console.WriteLine("Subject: {0}", message.Subject);
+                }
+
                 client.Disconnect(true);
             }
+        }
+
+        public Email MapEmails(MimeMessage message)
+        {
+            Email email = new Email();
+
+            email.Message = message.TextBody;
+            email.Sender = message.Sender.ToString();
+            email.CarbonCopy = message.Cc.ToString();
+            email.ReceivedTime = message.Date.DateTime;
+            email.Subject = message.Subject;
+
+            return email;
         }
     }
 }

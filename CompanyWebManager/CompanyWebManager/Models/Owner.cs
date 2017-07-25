@@ -15,6 +15,8 @@ namespace CompanyWebManager.Models
         public string FirstName { get; set; }
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
+        [Display(Name = "Email")]
+        public string OwnerEmail { get; set; }
         [Display(Name = "Data utworzenia")]
         public DateTime Created { get; set; }
 

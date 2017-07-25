@@ -17,9 +17,10 @@ namespace Email_Test
         {
             EmailSender email = new EmailSender();
 
-            Task task = email.SendEmailAsync("pawel.marciniak92@gmail.com", "pawel.marciniak92@gmail.com", "test", "test");
+            //Task task = email.SendEmailAsync("pawel.marciniak92@gmail.com", "pawel.marciniak92@gmail.com", "test", "test1234");
+            //Task task =  email.ReceiveEmail();
 
-            task.Wait();
+            //task.Wait();
 
         }
     }

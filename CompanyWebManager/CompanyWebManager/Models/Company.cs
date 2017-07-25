@@ -17,6 +17,9 @@ namespace CompanyWebManager.Models
         [Display(Name = "Branza")]
         public string Trade { get; set; }
 
+        [Display(Name = "Email")]
+        public string CompanyEmail { get; set; }
+
         public int OwnerID { get; set; }
         public int AddressID { get; set; }
 

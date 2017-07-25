@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170725180339_AddOwnerEmail")]
+    partial class AddOwnerEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -83,8 +84,6 @@ namespace CompanyWebManager.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("ClientEmail");
-
                     b.Property<int>("CompanyID");
 
                     b.Property<string>("FirstName");
@@ -104,8 +103,6 @@ namespace CompanyWebManager.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<int>("AddressID");
-
-                    b.Property<string>("CompanyEmail");
 
                     b.Property<string>("Name");
 
@@ -155,7 +152,7 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Sender");
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("Title");
 
                     b.HasKey("ID");
 

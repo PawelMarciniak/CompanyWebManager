@@ -25,7 +25,7 @@ namespace CompanyWebManager.Models
         public string BlindCarbonCopy { get; set; }
 
         [Display(Name = "Temat")]
-        public string Title { get; set; }
+        public string Subject { get; set; }
 
         [Display(Name = "Treść")]
         public string Message { get; set; }

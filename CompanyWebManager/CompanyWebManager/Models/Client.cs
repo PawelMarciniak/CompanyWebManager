@@ -12,8 +12,12 @@ namespace CompanyWebManager.Models
 
         [Display(Name = "Imie")]
         public string FirstName { get; set; }
+
         [Display(Name = "Nazwisko")]
         public string LastName { get; set; }
+
+        [Display(Name = "Email")]
+        public string ClientEmail { get; set; }
 
         public int CompanyID { get; set; }
 

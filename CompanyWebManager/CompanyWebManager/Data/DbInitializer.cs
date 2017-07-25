@@ -363,7 +363,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test",
+                        Subject = "test",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -371,7 +371,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@wp.pl",
-                        Title = "test2",
+                        Subject = "test2",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -379,7 +379,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test3",
+                        Subject = "test3",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -387,7 +387,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test4",
+                        Subject = "test4",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -395,7 +395,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test5",
+                        Subject = "test5",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -403,7 +403,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test6",
+                        Subject = "test6",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -411,7 +411,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test7",
+                        Subject = "test7",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -419,7 +419,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test8",
+                        Subject = "test8",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -427,7 +427,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test9",
+                        Subject = "test9",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -435,7 +435,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test10",
+                        Subject = "test10",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -443,7 +443,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test11",
+                        Subject = "test11",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -451,7 +451,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test12",
+                        Subject = "test12",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -459,7 +459,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test13",
+                        Subject = "test13",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -467,7 +467,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test14",
+                        Subject = "test14",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -475,7 +475,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test15",
+                        Subject = "test15",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
@@ -483,7 +483,7 @@ namespace CompanyWebManager.Data
                     new Email
                     {
                         Sender = "test@test.pl",
-                        Title = "test16",
+                        Subject = "test16",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
