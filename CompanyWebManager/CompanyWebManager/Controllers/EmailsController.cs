@@ -149,5 +149,10 @@ namespace CompanyWebManager.Controllers
         {
             return _context.Emails.Any(e => e.ID == id);
         }
+
+        public async Task SendEmails()
+        {
+
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,20 +18,21 @@ namespace CompanyWebManager.Helpers
     {
 
         //public Email
-
-        public async Task SendEmail(string emailFrom, List<string> emailTo, string subject, string message, string login, string pass)
+        public void SendEmails(string emailFrom, List<string> emailTo, string subject, string message, string login, string pass)
+        //public void SendEmails(string emailFrom, List<string> emailTo, string subject, string message, string login, string pass)
         {
             var emailMessage = new MimeMessage();
 
             emailMessage.From.Add(new MailboxAddress(emailFrom));
-
             emailMessage.To.Add(new MailboxAddress(emailTo[0]));
 
-            if (!(emailTo.Count > 1))
-            {
+            if (emailTo.Count > 1)
+            { 
+                List<InternetAddress> lists = new List<InternetAddress>();
                 foreach (var email in emailTo.Skip(1))
                 {
-                    emailMessage.Bcc.Add(new MailboxAddress(email));
+                    lists.Add(InternetAddress.Parse(email));
+                    emailMessage.Bcc.AddRange(lists);
                 }
             }
             
@@ -41,15 +43,15 @@ namespace CompanyWebManager.Helpers
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
-                 await client.ConnectAsync("smtp.gmail.com", 587);
+                 client.Connect("smtp.gmail.com", 587);
                 //client.Authenticate(login, pass);
-                await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
-                await client.SendAsync(emailMessage);
-                await client.DisconnectAsync(true);
+                client.Authenticate("webcompanymanager2017@gmail.com", "PawelNa100%");
+                client.Send(emailMessage);
+                client.Disconnect(true);
             }
         }
 
-        public async Task ReceiveEmails(string login, string pass)
+        public async Task<List<Email>> ReceiveEmails(string login, string pass)
         {
             List<Email> messages = new List<Email>();
 
@@ -75,6 +77,7 @@ namespace CompanyWebManager.Helpers
                 }
 
                 client.Disconnect(true);
+                return messages;
             }
         }
 

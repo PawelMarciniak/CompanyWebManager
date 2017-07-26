@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using CompanyWebManager.Models;
 using System.Security.Principal;
+using CompanyWebManager.Helpers;
 
 
 namespace CompanyWebManager.Controllers
@@ -16,6 +17,18 @@ namespace CompanyWebManager.Controllers
         public IActionResult Index()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
+
+
+            //EmailSender email = new EmailSender();
+            //List<string> receivers = new List<string>();
+            //receivers.Add("pawel.marciniak92@gmail.com");
+            //receivers.Add("pawel_m_92@wp.pl");
+
+            //new Task(() =>
+            //{
+            //    email.SendEmails("webcompanymanager2017@gmail.com", receivers, "test", "dupa", "test", "test");
+            //}).Start();
+            
 
             if (isAuthenticated)
             {

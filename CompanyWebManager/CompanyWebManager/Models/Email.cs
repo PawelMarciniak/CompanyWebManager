@@ -18,10 +18,10 @@ namespace CompanyWebManager.Models
         [Display(Name = "Odbiorca")]
         public string Receiver { get; set; }
 
-        [Display(Name = "Kopia_cc")]
+        [Display(Name = "Kopia - CC")]
         public string CarbonCopy { get; set; }
 
-        [Display(Name = "Kopia_bcc")]
+        [Display(Name = "Kopia ukryta - BCC")]
         public string BlindCarbonCopy { get; set; }
 
         [Display(Name = "Temat")]
