@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
+using CompanyWebManager.Helpers;
 
 namespace CompanyWebManager.Controllers
 {
     public class EmailsController : Controller
     {
         private readonly ApplicationDb _context;
+        private EmailSender es = new EmailSender();
 
         public EmailsController(ApplicationDb context)
         {
@@ -150,8 +152,24 @@ namespace CompanyWebManager.Controllers
             return _context.Emails.Any(e => e.ID == id);
         }
 
-        public async Task SendEmails()
+        [HttpPost]
+        public async Task<IActionResult> SendEmails(Email email, string login, string pass)
         {
+            await es.Send(email, login, pass);
+
+            return View("Index");
+            
+        }
+
+        public async Task<IActionResult> ReceiveEmails(string login, string pass)
+        {
+            List<Email> newEmails = await es.ReceiveEmails(login, pass);
+
+            List<Email> emails = await _context.Emails.ToListAsync();
+
+            emails.AddRange(newEmails);
+
+            return View("Index", emails);
 
         }
     }

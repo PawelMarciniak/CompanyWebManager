@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-<form asp-action="Create">
+<form asp-action="SendEmails">
     <div class="form-horizontal">
         <h4>Email</h4>
         <hr />
@@ -14,21 +14,21 @@
         <div class="form-group">
             <label asp-for="Receiver" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Receiver" class="form-control" />
+                <input asp-for="Receiver" type="email" class="form-control" />
                 <span asp-validation-for="Receiver" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="CarbonCopy" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="CarbonCopy" class="form-control" />
+                <input asp-for="CarbonCopy" class="form-control" placeholder="Adresy rozdziel `;`" />
                 <span asp-validation-for="CarbonCopy" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="BlindCarbonCopy" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="BlindCarbonCopy" class="form-control" />
+                <input asp-for="BlindCarbonCopy" class="form-control" placeholder="Adresy rozdziel `;`" />
                 <span asp-validation-for="BlindCarbonCopy" class="text-danger"></span>
             </div>
         </div>
@@ -47,8 +47,22 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="login" class="col-md-2 control-label">Login</label>
+            <div class="col-md-10">
+                <input id="login" name="login" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="pass" class="col-md-2 control-label">Haslo</label>
+            <div class="col-md-10">
+                <input id="pass" name="pass" type="password" class="form-control" />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Wyslij" class="btn btn-default" />
             </div>
         </div>
     </div>
@@ -60,4 +74,7 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script src="~/js/emails.js"></script>
+    <script src="~/js/jquery.md5.js"></script>
 }

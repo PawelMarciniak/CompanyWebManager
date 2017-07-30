@@ -366,7 +366,8 @@ namespace CompanyWebManager.Data
                         Subject = "test",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -374,7 +375,8 @@ namespace CompanyWebManager.Data
                         Subject = "test2",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -382,7 +384,8 @@ namespace CompanyWebManager.Data
                         Subject = "test3",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -390,7 +393,8 @@ namespace CompanyWebManager.Data
                         Subject = "test4",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -398,7 +402,8 @@ namespace CompanyWebManager.Data
                         Subject = "test5",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -406,7 +411,8 @@ namespace CompanyWebManager.Data
                         Subject = "test6",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -414,7 +420,8 @@ namespace CompanyWebManager.Data
                         Subject = "test7",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -422,7 +429,8 @@ namespace CompanyWebManager.Data
                         Subject = "test8",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -430,7 +438,8 @@ namespace CompanyWebManager.Data
                         Subject = "test9",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -438,7 +447,8 @@ namespace CompanyWebManager.Data
                         Subject = "test10",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -446,7 +456,8 @@ namespace CompanyWebManager.Data
                         Subject = "test11",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -454,7 +465,8 @@ namespace CompanyWebManager.Data
                         Subject = "test12",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -462,7 +474,8 @@ namespace CompanyWebManager.Data
                         Subject = "test13",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -470,7 +483,8 @@ namespace CompanyWebManager.Data
                         Subject = "test14",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -478,7 +492,8 @@ namespace CompanyWebManager.Data
                         Subject = "test15",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     },
                     new Email
                     {
@@ -486,7 +501,8 @@ namespace CompanyWebManager.Data
                         Subject = "test16",
                         OwnerID = 1,
                         Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22")
+                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
+                        Saved = true
                     }
                 };
 

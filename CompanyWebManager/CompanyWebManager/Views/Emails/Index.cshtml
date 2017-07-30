@@ -1,53 +1,127 @@
+@using Org.BouncyCastle.Crypto.Tls
 @model IEnumerable<CompanyWebManager.Models.Email>
 
 @{
     ViewData["Title"] = "Index";
 }
 
+
 <h2>Index</h2>
 
 <p>
-    <a asp-action="Create">Utworz wiadomosc</a>
+    <button asp-action="Create" type="button" class="btn">Utworz wiadomosc`</button>
 </p>
-<table class="table">
-    <thead>
+<p>
+    <button onclick="show('#loginForm');" class="btn">Odbierz wiadomosci</button>
+</p>
+
+<form  asp-action="ReceiveEmails" class="hidden" id="loginForm">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Email address</label>
+        <input type="email" class="form-control" id="login" name="login" aria-describedby="emailHelp" placeholder="Email">
+        <small id="emailHelp" class="form-text text-muted">Pamietaj, ze konto MUSI byc z domeny gmail.com</small>
+    </div>
+    <div class="form-group">
+        <label for="exampleInputPassword1">Haslo</label>
+        <input type="password" class="form-control" id="pass" name="pass" placeholder="Haslo">
+    </div>
+    <button type="submit" class="btn btn-success">Odbierz</button>
+</form>
+
+
+@if (Model.Where(x => x.Saved == false).Count() > 1)
+{
+    <table class="table">
+        <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Sender)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Subject)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Message)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ReceivedTime)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedTime)
+            </th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sender)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Subject)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Message)
-            </td>
-            <td>s
-                @Html.DisplayFor(modelItem => item.ReceivedTime)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Where(x => x.Saved == false))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedTime)
+                </td>
+                <td>
+                    <button type="button" asp-action="Save" asp-route-id="@item.ID" class="btn btn-success">Zapisz</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
 }
-    </tbody>
-</table>
+
+@if (Model.Where(x => x.Saved == true).Count() > 1)
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Sender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Message)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedTime)
+            </th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Where(x => x.Saved == true))
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sender)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Message)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedTime)
+                </td>
+                <td>
+                    <button type="button" asp-action="Save" asp-route-id="@item.ID" class="btn btn-success">Zapisz</button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+    
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="~/js/emails.js"></script>
+}

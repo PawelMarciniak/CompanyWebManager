@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\CompanyWebManager",
+    "\\CompanyWebManager\\CompanyWebManager",
+    "\\CompanyWebManager\\CompanyWebManager\\Controllers",
+    "\\CompanyWebManager\\CompanyWebManager\\Helpers",
+    "\\CompanyWebManager\\CompanyWebManager\\Models",
+    "\\CompanyWebManager\\CompanyWebManager\\Views",
+    "\\CompanyWebManager\\CompanyWebManager\\Views\\Emails",
+    "\\CompanyWebManager\\CompanyWebManager\\wwwroot",
+    "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\css",
+    "\\CompanyWebManager\\Email_Test"
+  ],
+  "SelectedNode": "\\CompanyWebManager\\CompanyWebManager\\CompanyWebManager.csproj",
+  "PreviewInSolutionExplorer": false
+}

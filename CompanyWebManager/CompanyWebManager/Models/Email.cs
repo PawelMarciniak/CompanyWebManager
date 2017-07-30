@@ -33,6 +33,10 @@ namespace CompanyWebManager.Models
         [Display(Name = "Data odbioru")]
         public DateTime ReceivedTime { get; set; }
 
+        public bool? Success{ get; set; }
+
+        public bool? Saved { get; set; }
+
         public int OwnerID { get; set; }
 
         public Owner Owner { get; set; }

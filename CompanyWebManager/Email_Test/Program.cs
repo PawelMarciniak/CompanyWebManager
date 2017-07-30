@@ -24,14 +24,16 @@ namespace Email_Test
 
             new Task(() =>
                 {
-                    email.SendEmails("webcompanymanager2017@gmail.com", receivers, "test", "dupa", "test", "test");
+                    //email.SendEmails("webcompanymanager2017@gmail.com", receivers, "test", "dupa", "test", "test");
                 }).Start();
             
 
 
 
 
-            Task task2 =  email.ReceiveEmails("test", "test");
+            //Task task2 =  email.ReceiveEmails("test", "test");
+
+            //email.ReceiveEmail("test", "test");
 
             //task.Wait();
 

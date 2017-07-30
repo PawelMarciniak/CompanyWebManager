@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170730180744_AddSuccessToEmail")]
+    partial class AddSuccessToEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -153,13 +154,11 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Receiver");
 
-                    b.Property<bool?>("Saved");
-
                     b.Property<string>("Sender");
 
                     b.Property<string>("Subject");
 
-                    b.Property<bool?>("Success");
+                    b.Property<bool>("Success");
 
                     b.HasKey("ID");
 
