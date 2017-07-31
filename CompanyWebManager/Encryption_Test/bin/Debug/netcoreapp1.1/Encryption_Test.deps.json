@@ -6,13 +6,12 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v1.1": {
-      "email_test/1.0.0": {
+      "encryption_test/1.0.0": {
         "dependencies": {
-          "CompanyWebManager": "1.0.0",
-          "Microsoft.AspNetCore.Session": "1.1.2"
+          "CompanyWebManager": "1.0.0"
         },
         "runtime": {
-          "Email_Test.dll": {}
+          "Encryption_Test.dll": {}
         }
       },
       "bootstrap/3.3.7": {
@@ -1122,7 +1121,7 @@
     }
   },
   "libraries": {
-    "email_test/1.0.0": {
+    "encryption_test/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

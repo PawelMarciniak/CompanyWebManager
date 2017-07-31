@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CompanyWebManager\CompanyWebManager.csproj" />
   </ItemGroup>
 

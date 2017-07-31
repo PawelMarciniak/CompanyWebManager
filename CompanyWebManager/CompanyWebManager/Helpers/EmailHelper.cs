@@ -9,6 +9,7 @@ using MailKit;
 using MailKit.Net.Imap;
 using MailKit.Search;
 using MailKit.Security;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.CodeAnalysis.Emit;
 using MimeKit;
 
@@ -115,12 +116,30 @@ namespace CompanyWebManager.Helpers
                 foreach (var uid in client.Inbox.Search(SearchQuery.NotSeen))
                 {
                     var message = inbox.GetMessage(uid);
+                    //inbox.AddFlags(uid, MessageFlags.Seen, true);
 
                     messages.Add(MapEmails(message));
                 }
 
                 client.Disconnect(true);
                 return messages;
+            }
+        }
+
+        public  void SetEmailAsRead(string login, string pass, int id)
+        {
+            using (var client = new ImapClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                client.Connect("imap.gmail.com", 993, true);
+                //await client.AuthenticateAsync(login, pass);
+                client.Authenticate("webcompanymanager2017@gmail.com", "PawelNa100%");
+
+                var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadOnly);
+                inbox.AddFlags(id, MessageFlags.Seen, true);
+                client.Disconnect(true);
             }
         }
 

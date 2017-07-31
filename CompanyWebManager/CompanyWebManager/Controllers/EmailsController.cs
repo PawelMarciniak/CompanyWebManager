@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
 using CompanyWebManager.Helpers;
+using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using Microsoft.AspNetCore.Http;
+using Org.BouncyCastle.Utilities.Encoders;
 
 namespace CompanyWebManager.Controllers
 {
@@ -24,7 +27,8 @@ namespace CompanyWebManager.Controllers
         // GET: Emails
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Emails.ToListAsync());
+            return RedirectToAction("ReceiveEmails");
+            // return View(await _context.Emails.ToListAsync());
         }
 
         // GET: Emails/Details/5
@@ -56,66 +60,20 @@ namespace CompanyWebManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Sender,Title,Message,ReceivedTime")] Email email)
+        public async Task<IActionResult> Save([Bind("ID,Receiver,CarbonCopy,BlindCarbonCopy,Subject,Message,ReceivedTime")] Email email)
         {
-            if (ModelState.IsValid)
-            {
                 _context.Add(email);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            return View(email);
+                return RedirectToAction("ReceiveEmails");
         }
 
-        // GET: Emails/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var email = await _context.Emails.SingleOrDefaultAsync(m => m.ID == id);
-            if (email == null)
-            {
-                return NotFound();
-            }
-            return View(email);
-        }
-
-        // POST: Emails/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Sender,Title,Message,ReceivedTime")] Email email)
+        public bool SaveEmail(int rowNum)
         {
-            if (id != email.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(email);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmailExists(email.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(email);
+            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
+            _context.Add(msg);
+            _context.SaveChangesAsync();
+            return true;
         }
 
         // GET: Emails/Delete/5
@@ -163,14 +121,40 @@ namespace CompanyWebManager.Controllers
 
         public async Task<IActionResult> ReceiveEmails(string login, string pass)
         {
+            if (!string.IsNullOrEmpty(login))
+            {
+                StoreData(login, pass);
+            }
+            
             List<Email> newEmails = await es.ReceiveEmails(login, pass);
-
+            HttpContext.Session.SetObjectAsJson("ReceivedEmails", newEmails);
+           // SessionContext["ReceivedEmails"] = newEmails;
             List<Email> emails = await _context.Emails.ToListAsync();
+
+
+            List<Email> emailsTmp = HttpContext.Session.GetObjectFromJson<List<Email>>("ReceivedEmails");
+
+            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", 0);
 
             emails.AddRange(newEmails);
 
             return View("Index", emails);
 
+        }
+
+        public void StoreData(string email, string pass)
+        {
+            var key = EncryptHelper.GenerateKey();
+
+            var encrMail = EncryptHelper.EncryptString(email, key);
+            var encrPass = EncryptHelper.EncryptString(pass, key);
+
+            HttpContext.Session.SetObjectAsJson("key", key);
+            HttpContext.Session.SetObjectAsJson("email", encrMail);
+            HttpContext.Session.SetObjectAsJson("pass", encrPass);
+            var tmpEmail = HttpContext.Session.GetObjectFromJson<string>("email");
+
+            var testEmail = EncryptHelper.DecryptString(tmpEmail, key);
         }
     }
 }

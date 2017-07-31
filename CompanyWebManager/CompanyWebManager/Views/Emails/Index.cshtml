@@ -12,28 +12,28 @@
     <button asp-action="Create" type="button" class="btn">Utworz wiadomosc`</button>
 </p>
 <p>
-    <button onclick="show('#loginForm');" class="btn">Odbierz wiadomosci</button>
+    <button onclick="show('#loginForm');" class="btn">Osdbierz wiadomosci</button>
 </p>
 
 <form  asp-action="ReceiveEmails" class="hidden" id="loginForm">
     <div class="form-group">
-        <label for="exampleInputEmail1">Email address</label>
+        <label for="login">Adres email</label>
         <input type="email" class="form-control" id="login" name="login" aria-describedby="emailHelp" placeholder="Email">
         <small id="emailHelp" class="form-text text-muted">Pamietaj, ze konto MUSI byc z domeny gmail.com</small>
     </div>
     <div class="form-group">
-        <label for="exampleInputPassword1">Haslo</label>
+        <label for="pass">Haslo</label>
         <input type="password" class="form-control" id="pass" name="pass" placeholder="Haslo">
     </div>
     <button type="submit" class="btn btn-success">Odbierz</button>
 </form>
 
 
-@if (Model.Where(x => x.Saved == false).Count() > 1)
+@if (Model.Any(x => x.Saved == false))
 {
     <table class="table">
         <thead>
-        <tr>
+        <tr data-request-url="@Url.Action("SaveEmail")">
             <th>
                 @Html.DisplayNameFor(model => model.Sender)
             </th>
@@ -66,7 +66,7 @@
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
                 <td>
-                    <button type="button" asp-action="Save" asp-route-id="@item.ID" class="btn btn-success">Zapisz</button>
+                    <button type="button" onclick="saveEmail($(this));" class="btn btn-success">Zapisz do bazy</button>
                 </td>
             </tr>
         }
@@ -74,7 +74,7 @@
     </table>
 }
 
-@if (Model.Where(x => x.Saved == true).Count() > 1)
+@if (Model.Any(x => x.Saved == true))
 {
     <table class="table">
         <thead>
@@ -111,7 +111,7 @@
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
                 <td>
-                    <button type="button" asp-action="Save" asp-route-id="@item.ID" class="btn btn-success">Zapisz</button>
+                    <button type="button" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-success">Usun z bazy</button>
                 </td>
             </tr>
         }

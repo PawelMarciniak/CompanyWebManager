@@ -58,6 +58,9 @@ namespace CompanyWebManager
                 options.Filters.Add(new RequireHttpsAttribute());
             });
 
+            services.AddDistributedMemoryCache(); 
+            services.AddSession();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
@@ -119,6 +122,8 @@ namespace CompanyWebManager
             });
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
