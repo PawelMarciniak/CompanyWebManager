@@ -10,7 +10,6 @@ using CompanyWebManager.Models;
 using CompanyWebManager.Helpers;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.AspNetCore.Http;
-using Org.BouncyCastle.Utilities.Encoders;
 
 namespace CompanyWebManager.Controllers
 {
@@ -30,25 +29,7 @@ namespace CompanyWebManager.Controllers
             return RedirectToAction("ReceiveEmails");
             // return View(await _context.Emails.ToListAsync());
         }
-
-        // GET: Emails/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var email = await _context.Emails
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (email == null)
-            {
-                return NotFound();
-            }
-
-            return View(email);
-        }
-
+        
         // GET: Emails/Create
         public IActionResult Create()
         {
@@ -74,6 +55,19 @@ namespace CompanyWebManager.Controllers
             _context.Add(msg);
             _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IActionResult> OpenEmailAsync(int id, bool saved)
+        {
+            Email test = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
+            var email = await es.GetEmailToDisplay(id, saved, _context);
+
+            if (email == null)
+            {
+                return NotFound();
+            }
+
+            return View("DisplayEmail", email);
         }
 
         // GET: Emails/Delete/5
@@ -144,17 +138,23 @@ namespace CompanyWebManager.Controllers
 
         public void StoreData(string email, string pass)
         {
-            var key = EncryptHelper.GenerateKey();
 
-            var encrMail = EncryptHelper.EncryptString(email, key);
-            var encrPass = EncryptHelper.EncryptString(pass, key);
+            HttpContext.Session.SetObjectAsJson("email", email);
+            HttpContext.Session.SetObjectAsJson("pass", pass);
 
-            HttpContext.Session.SetObjectAsJson("key", key);
-            HttpContext.Session.SetObjectAsJson("email", encrMail);
-            HttpContext.Session.SetObjectAsJson("pass", encrPass);
-            var tmpEmail = HttpContext.Session.GetObjectFromJson<string>("email");
+            //var key = Guid.NewGuid().ToString().Replace("-", "");
 
-            var testEmail = EncryptHelper.DecryptString(tmpEmail, key);
+            //var encrMail = EncryptHelper.EncryptString(email, key);
+            //var encrPass = EncryptHelper.EncryptString(pass, key);
+
+            //HttpContext.Session.SetObjectAsJson("key", key);
+            //HttpContext.Session.SetObjectAsJson("email", encrMail);
+            //HttpContext.Session.SetObjectAsJson("pass", encrPass);
+            //var tmpEmail = HttpContext.Session.GetObjectFromJson<byte[]>("email");
+
+            //var tst = Convert.FromBase64String(tmpEmail);
+
+            //var testEmail = EncryptHelper.DecryptString(Convert.FromBase64String(tmpEmail), key);
         }
     }
 }

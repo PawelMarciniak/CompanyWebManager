@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
 using MailKit.Net.Smtp;
 using MailKit;
@@ -10,7 +11,10 @@ using MailKit.Net.Imap;
 using MailKit.Search;
 using MailKit.Security;
 using Microsoft.ApplicationInsights.Extensibility.Implementation;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.EntityFrameworkCore;
 using MimeKit;
 
 
@@ -18,6 +22,14 @@ namespace CompanyWebManager.Helpers
 {
     public class EmailSender
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private ISession _session => _httpContextAccessor.HttpContext.Session;
+
+        public EmailSender(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
         public async Task<bool> Send(Email emailToSend, string login, string pass)
         {
             var emailMessage = new MimeMessage();
@@ -153,6 +165,22 @@ namespace CompanyWebManager.Helpers
             email.ReceivedTime = message.Date.DateTime;
             email.Subject = message.Subject;
             email.Saved = false;
+
+            return email;
+        }
+
+        public async Task<Email> GetEmailToDisplay(int rowNum, bool saved, ApplicationDb context)
+        {
+            Email email = null;
+            if (saved)
+            {
+                email = await context.Emails
+                    .SingleOrDefaultAsync(m => m.ID == rowNum);
+            }
+            else
+            {
+                email = _session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
+            }
 
             return email;
         }

@@ -12,25 +12,13 @@ namespace CompanyWebManager.Helpers
     {
         public static byte[] GenerateKey()
         {
-            //byte[] random = new Byte[100];
-
             Aes aes = Aes.Create();
-            //aes.GenerateIV();
-            var key = aes.IV;
-            //HttpContext.Session.SetObjectAsJson("ReceivedEmails", key);
-            return key;
-
-
-
-            ////RNGCryptoServiceProvider is an implementation of a random number generator.
-            //RandomNumberGenerator rng = RandomNumberGenerator.Create();
-            //string key = rng.GetBytes(random).ToString(); // The array is now filled with cryptographically strong random bytes.
-            //return key;
+            return aes.IV;
         }
 
-        public static string EncryptString(string text, byte[] key)
+        public static string EncryptString(string text, string keyString)
         {
-            //var key = Encoding.UTF8.GetBytes(keyString);
+            var key = Encoding.UTF8.GetBytes(keyString);
 
             using (var aesAlg = Aes.Create())
             {
@@ -60,7 +48,7 @@ namespace CompanyWebManager.Helpers
             }
         }
 
-        public static string DecryptString(string cipherText, byte[] key)
+        public static string DecryptString(string cipherText, string keyString)
         {
             var fullCipher = Convert.FromBase64String(cipherText);
             //var fullCipher = cipherText;
@@ -70,7 +58,7 @@ namespace CompanyWebManager.Helpers
 
             Buffer.BlockCopy(fullCipher, 0, iv, 0, iv.Length);
             Buffer.BlockCopy(fullCipher, iv.Length, cipher, 0, iv.Length);
-            //var key = Encoding.UTF8.GetBytes(keyString);
+            var key = Encoding.UTF8.GetBytes(keyString);
 
             using (var aesAlg = Aes.Create())
             {

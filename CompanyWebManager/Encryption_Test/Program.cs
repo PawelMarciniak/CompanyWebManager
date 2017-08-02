@@ -10,14 +10,14 @@ namespace Encryption_Test
 
             var content = "Example test";
             //var key = "E546C8DF278CD5931069B522E695D4F2";
-            var key = EncryptHelper.GenerateKey();
+            var key = Guid.NewGuid().ToString().Replace("-","");
 
             Console.WriteLine(content);
             var encrypted = EncryptHelper.EncryptString(content, key);
             Console.WriteLine(encrypted);
 
-            var decrypted = EncryptHelper.DecryptString(encrypted, key);
-            Console.WriteLine(decrypted);
+           // var decrypted = EncryptHelper.DecryptString(encrypted, key);
+            //Console.WriteLine(decrypted);
 
             Console.ReadLine();
         }

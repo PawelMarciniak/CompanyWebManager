@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using CompanyWebManager.Data;
 using CompanyWebManager.DataContexts;
+using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyWebManager
@@ -61,6 +63,8 @@ namespace CompanyWebManager
             services.AddDistributedMemoryCache(); 
             services.AddSession();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.Configure<IdentityOptions>(options =>
             {
                 // Password settings
@@ -89,7 +93,7 @@ namespace CompanyWebManager
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDb context)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, ApplicationDb context, IHttpContextAccessor httpContextAccessor)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();

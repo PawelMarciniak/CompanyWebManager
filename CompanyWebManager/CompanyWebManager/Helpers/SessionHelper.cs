@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using CompanyWebManager.Models;
 using Microsoft.AspNetCore.Http;
@@ -19,7 +21,6 @@ namespace CompanyWebManager.Helpers
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-
             return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
 
@@ -31,6 +32,7 @@ namespace CompanyWebManager.Helpers
 
             return value == null ? default(T) : list[itemNum];
         }
+
     }
 
 

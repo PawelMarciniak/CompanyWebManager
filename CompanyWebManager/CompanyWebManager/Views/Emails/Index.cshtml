@@ -33,7 +33,7 @@
 {
     <table class="table">
         <thead>
-        <tr data-request-url="@Url.Action("SaveEmail")">
+        <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Sender)
             </th>
@@ -50,8 +50,11 @@
         </tr>
         </thead>
         <tbody>
+        
+        @{ int i = 0;}
         @foreach (var item in Model.Where(x => x.Saved == false))
         {
+
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Sender)
@@ -60,15 +63,18 @@
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Message)
+                    @Html.DisplayFor(modelItem => item.MessageToDisplay)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
                 <td>
-                    <button type="button" onclick="saveEmail($(this));" class="btn btn-success">Zapisz do bazy</button>
+                    <button type="button" data-request-url="@Url.Action("SaveEmail")" onclick="sendRequestToController($(this));" class="btn btn-success">Zapisz do bazy</button>
+                    @*<button type="button" asp-controller="Emails" asp-action="OpenEmail" data-request-url="@Url.Action("OpenEmailAsync")" onclick="sendRequestToController($(this));" class="btn btn-success">Otworz</button>*@
+                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@(i)" asp-route-saved="false">Details</a>
                 </td>
             </tr>
+            i++;
         }
         </tbody>
     </table>
@@ -87,7 +93,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Message)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.ReceivedTime)
             </th>
@@ -111,7 +116,9 @@
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
                 <td>
-                    <button type="button" asp-action="Delete" asp-route-id="@item.ID" class="btn btn-success">Usun z bazy</button>
+                    <button type="button" asp-action="Delete" asp-controller="Emails" asp-route-id="@item.ID" class="btn btn-success">Usun z bazy</button>
+                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@item.ID" asp-route-saved="true">Details</a>
+                    <a asp-action="OpenEmailAsync" asp-route-id="@item.ID" asp-route-saved="true">Details2</a>
                 </td>
             </tr>
         }

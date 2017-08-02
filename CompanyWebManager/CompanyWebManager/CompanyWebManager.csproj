@@ -38,8 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Tests\" />
-    <Folder Include="Views\Emails\" />
-    <Folder Include="Views\Emails\" />
   </ItemGroup>
   <PropertyGroup>
     <UserSecretsId>My-USER-SECRET-ID-HERE-c23d27a4-eb88</UserSecretsId>

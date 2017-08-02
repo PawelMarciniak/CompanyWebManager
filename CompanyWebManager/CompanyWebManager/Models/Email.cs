@@ -30,6 +30,9 @@ namespace CompanyWebManager.Models
         [Display(Name = "Treść")]
         public string Message { get; set; }
 
+        [Display(Name = "Treść")]
+        public string MessageToDisplay => Message.Length > 50 ? Message.Substring(0, 50) + "..." : Message;
+
         [Display(Name = "Data odbioru")]
         public DateTime ReceivedTime { get; set; }
 
