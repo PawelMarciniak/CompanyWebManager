@@ -7,19 +7,29 @@ using System.Threading.Tasks;
 
 namespace CompanyWebManager.Models
 {
-    public class Company
+    public class Employee
     {
         #region Properties
+
         public int ID { get; set; }
 
-        [Display(Name = "Nazwa")]
-        public string Name { get; set; }
+        [Display(Name = "Imie")]
+        public string FirstName { get; set; }
 
-        [Display(Name = "Branza")]
-        public string Trade { get; set; }
+        [Display(Name = "Nazwisko")]
+        public string LastName { get; set; }
 
         [Display(Name = "Email")]
-        public string CompanyEmail { get; set; }
+        public string Email { get; set; }
+
+        [Display(Name = "Numer kontaktowy")]
+        public string PhoneNumber { get; set; }
+
+        [Display(Name = "Stanowisko")]
+        public string Position { get; set; }
+
+        [Display(Name = "Pensja - brutto")]
+        public double Salary { get; set; }
 
         [Display(Name = "Ulica i numer domu/mieszkania")]
         public string Street { get; set; }
@@ -35,15 +45,16 @@ namespace CompanyWebManager.Models
 
         [NotMapped]
         [Display(Name = "Wojewodztwo")]
-        public int? VoivodeshipName { get; set; }
+        public string VoivodeshipName { get; set; }
 
         [Display(Name = "Kraj")]
         public int Country { get; set; }
 
         [NotMapped]
         [Display(Name = "Kraj")]
-        public int? CountryName { get; set; }
+        public string CountryName { get; set; }
+
 
         #endregion
-    }   
+    }
 }

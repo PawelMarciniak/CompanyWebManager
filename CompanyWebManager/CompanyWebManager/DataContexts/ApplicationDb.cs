@@ -40,11 +40,11 @@ namespace CompanyWebManager.DataContexts
 
             builder.Entity<Company>().ToTable("Companies");
             builder.Entity<Client>().ToTable("Clients");
-            builder.Entity<Owner>().ToTable("Owners");
-            builder.Entity<Address>().ToTable("Addresses");
+            builder.Entity<Owner>().ToTable("Owners");            
             builder.Entity<Voivodeship>().ToTable("Voivodeships");
             builder.Entity<Country>().ToTable("Countries");
             builder.Entity<Email>().ToTable("Emails");
+            builder.Entity<Employee>().ToTable("Employees");
 
 
         }
@@ -53,9 +53,9 @@ namespace CompanyWebManager.DataContexts
         public DbSet<Client> Clients { get; set; }
         public DbSet<Email> Emails { get; set; }
         public DbSet<Owner> Owners { get; set; }
-        public DbSet<Address> Addresses { get; set; }
         public DbSet<Voivodeship> Voivodeships { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<CompanyWebManager.Models.Employee> Employee { get; set; }
 
     }
 }

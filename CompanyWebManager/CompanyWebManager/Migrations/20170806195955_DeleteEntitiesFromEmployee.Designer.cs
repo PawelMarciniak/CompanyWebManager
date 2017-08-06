@@ -8,13 +8,38 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170806195955_DeleteEntitiesFromEmployee")]
+    partial class DeleteEntitiesFromEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CompanyWebManager.Models.Address", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryID");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("Town");
+
+                    b.Property<int?>("VoivodeshipID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
+
+                    b.HasIndex("VoivodeshipID");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("CompanyWebManager.Models.ApplicationUser", b =>
                 {
@@ -61,7 +86,7 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("ClientEmail");
 
-                    b.Property<int>("Country");
+                    b.Property<int>("CountryID");
 
                     b.Property<string>("FirstName");
 
@@ -73,9 +98,13 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Town");
 
-                    b.Property<int?>("Voivodeship");
+                    b.Property<int?>("VoivodeshipID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
+
+                    b.HasIndex("VoivodeshipID");
 
                     b.ToTable("Clients");
                 });
@@ -87,7 +116,7 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("CompanyEmail");
 
-                    b.Property<int>("Country");
+                    b.Property<int>("CountryID");
 
                     b.Property<string>("Name");
 
@@ -99,9 +128,13 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Trade");
 
-                    b.Property<int?>("Voivodeship");
+                    b.Property<int?>("VoivodeshipID");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
+
+                    b.HasIndex("VoivodeshipID");
 
                     b.ToTable("Companies");
                 });
@@ -159,7 +192,7 @@ namespace CompanyWebManager.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Country");
+                    b.Property<int>("CountryID");
 
                     b.Property<string>("Email");
 
@@ -179,7 +212,7 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Town");
 
-                    b.Property<int?>("Voivodeship");
+                    b.Property<int?>("VoivodeshipID");
 
                     b.HasKey("ID");
 
@@ -327,6 +360,39 @@ namespace CompanyWebManager.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Address", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryID");
+
+                    b.HasOne("CompanyWebManager.Models.Voivodeship", "Voivodeship")
+                        .WithMany()
+                        .HasForeignKey("VoivodeshipID");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Client", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryID");
+
+                    b.HasOne("CompanyWebManager.Models.Voivodeship", "Voivodeship")
+                        .WithMany()
+                        .HasForeignKey("VoivodeshipID");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Company", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryID");
+
+                    b.HasOne("CompanyWebManager.Models.Voivodeship", "Voivodeship")
+                        .WithMany()
+                        .HasForeignKey("VoivodeshipID");
                 });
 
             modelBuilder.Entity("CompanyWebManager.Models.Email", b =>

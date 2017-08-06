@@ -8,13 +8,38 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170806142316_AddEmployee")]
+    partial class AddEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("CompanyWebManager.Models.Address", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("CountryID");
+
+                    b.Property<string>("PostalCode");
+
+                    b.Property<string>("Street");
+
+                    b.Property<string>("Town");
+
+                    b.Property<int?>("VoivodeshipID");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("CountryID");
+
+                    b.HasIndex("VoivodeshipID");
+
+                    b.ToTable("Addresses");
+                });
 
             modelBuilder.Entity("CompanyWebManager.Models.ApplicationUser", b =>
                 {
@@ -61,21 +86,15 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("ClientEmail");
 
-                    b.Property<int>("Country");
+                    b.Property<int>("CompanyID");
 
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("Street");
-
-                    b.Property<string>("Town");
-
-                    b.Property<int?>("Voivodeship");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("CompanyID");
 
                     b.ToTable("Clients");
                 });
@@ -85,23 +104,21 @@ namespace CompanyWebManager.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CompanyEmail");
+                    b.Property<int>("AddressID");
 
-                    b.Property<int>("Country");
+                    b.Property<string>("CompanyEmail");
 
                     b.Property<string>("Name");
 
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("Street");
-
-                    b.Property<string>("Town");
+                    b.Property<int>("OwnerID");
 
                     b.Property<string>("Trade");
 
-                    b.Property<int?>("Voivodeship");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("AddressID");
+
+                    b.HasIndex("OwnerID");
 
                     b.ToTable("Companies");
                 });
@@ -159,7 +176,7 @@ namespace CompanyWebManager.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Country");
+                    b.Property<int>("AddressID");
 
                     b.Property<string>("Email");
 
@@ -171,17 +188,11 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("Position");
 
-                    b.Property<string>("PostalCode");
-
                     b.Property<double>("Salary");
 
-                    b.Property<string>("Street");
-
-                    b.Property<string>("Town");
-
-                    b.Property<int?>("Voivodeship");
-
                     b.HasKey("ID");
+
+                    b.HasIndex("AddressID");
 
                     b.ToTable("Employees");
                 });
@@ -190,6 +201,8 @@ namespace CompanyWebManager.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AddressID");
 
                     b.Property<DateTime>("Created");
 
@@ -204,6 +217,8 @@ namespace CompanyWebManager.Migrations
                     b.Property<string>("UserName");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("AddressID");
 
                     b.HasIndex("UserId");
 
@@ -329,6 +344,35 @@ namespace CompanyWebManager.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CompanyWebManager.Models.Address", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Country", "Country")
+                        .WithMany()
+                        .HasForeignKey("CountryID");
+
+                    b.HasOne("CompanyWebManager.Models.Voivodeship", "Voivodeship")
+                        .WithMany()
+                        .HasForeignKey("VoivodeshipID");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Client", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyID");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Company", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressID");
+
+                    b.HasOne("CompanyWebManager.Models.Owner", "Owner")
+                        .WithMany()
+                        .HasForeignKey("OwnerID");
+                });
+
             modelBuilder.Entity("CompanyWebManager.Models.Email", b =>
                 {
                     b.HasOne("CompanyWebManager.Models.Owner", "Owner")
@@ -336,8 +380,20 @@ namespace CompanyWebManager.Migrations
                         .HasForeignKey("OwnerID");
                 });
 
+            modelBuilder.Entity("CompanyWebManager.Models.Employee", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("CompanyWebManager.Models.Owner", b =>
                 {
+                    b.HasOne("CompanyWebManager.Models.Address", "Address")
+                        .WithMany()
+                        .HasForeignKey("AddressID");
+
                     b.HasOne("CompanyWebManager.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");

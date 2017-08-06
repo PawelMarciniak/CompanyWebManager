@@ -71,7 +71,7 @@
                 <td class="col-md-3">
                     <a class="btn btn-success"  asp-action="SaveEmail" asp-route-id="@(i)" >Zapisz do bazy</a>
                     <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@(i)" asp-route-saved="false">Przeczytaj</a>
-                    <a class="btn btn-success" asp-action="Delete" asp-route-id="@(i)" asp-route-saved="false">Usuñ</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@(i)" asp-route-saved="false">Usuñ</a>
                 </td>
             </tr>
             i++;

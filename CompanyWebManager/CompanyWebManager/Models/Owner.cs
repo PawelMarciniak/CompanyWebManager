@@ -21,10 +21,8 @@ namespace CompanyWebManager.Models
         public DateTime Created { get; set; }
 
         public string UserName { get; set; }
-        public int AddressID { get; set; }
 
         public ApplicationUser User { get; set; }
-        public Address Address { get; set; }
 
         public ICollection<Email> Emails { get; set; }
 

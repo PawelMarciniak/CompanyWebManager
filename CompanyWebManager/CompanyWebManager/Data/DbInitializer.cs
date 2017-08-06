@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CompanyWebManager.Models;
 using CompanyWebManager.DataContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyWebManager.Data
 {
@@ -303,33 +304,14 @@ namespace CompanyWebManager.Data
                 context.SaveChanges();
             }
 
-
-            if (!context.Addresses.Any())
-            {
-                var addresses = new Address[]
-                {
-                    new Address { Street = "Testowa 1/11", Town = "Bydgoszcz", PostalCode = "85-333", VoivodeshipID = 1, CountryID =  1},
-                    new Address { Street = "Testowa 2/122", Town = "warszawa", PostalCode = "22-333", VoivodeshipID = 5, CountryID = 177 },
-                    new Address { Street = "Testowa 3", Town = "paterek", PostalCode = "89-100", VoivodeshipID = 2, CountryID = 178 },
-                    new Address { Street = "Simple Street 1", Town = "new york", PostalCode = "", VoivodeshipID = 4, CountryID = 230 },
-                    new Address { Street = "Simple Street 2", Town = "dallas", PostalCode = "", VoivodeshipID = 3, CountryID = 231 },
-                };
-
-                foreach (Address a in addresses)
-                {
-                    context.Addresses.Add(a);
-                }
-
-                context.SaveChanges();
-            }
-
             if (!context.Owners.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 0)");
                 var owners = new Owner[]
                 {
-                    new  Owner { FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now, AddressID = 1 },
-                    new  Owner { FirstName = "janusz", LastName = "januszowy", Created = DateTime.Parse("2017-07-17"), AddressID = 2 },
-                    new  Owner { FirstName = "grazyna", LastName = "poplecka", Created = DateTime.Parse("2017-07-15"), AddressID = 3}
+                    new  Owner { FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now },
+                    new  Owner { FirstName = "janusz", LastName = "januszowy", Created = DateTime.Parse("2017-07-17") },
+                    new  Owner { FirstName = "grazyna", LastName = "poplecka", Created = DateTime.Parse("2017-07-15")}
                 };
 
                 foreach (Owner o in owners)
@@ -343,8 +325,8 @@ namespace CompanyWebManager.Data
             {
                 var companies = new Company[]
                 {
-                    new Company { Name = "TestowaFirma1", Trade = "IT", OwnerID = 1, AddressID = 4},
-                    new Company { Name = "TestowaFirma2", Trade = "IT", OwnerID = 2, AddressID = 5}
+                    new Company { Name = "TestowaFirma1", Trade = "IT", Street = "Testowa 1/11", Town = "Bydgoszcz", PostalCode = "85-333", Voivodeship = 1, Country = 1},
+                    new Company { Name = "TestowaFirma2", Trade = "IT", Street = "Testowa 2/122", Town = "warszawa", PostalCode = "22-333", Voivodeship = 5, Country = 177}
 
                 };
 
@@ -449,66 +431,37 @@ namespace CompanyWebManager.Data
                         Message = "czesc, co tam?",
                         ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
                         Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test11",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test12",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test13",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test14",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test15",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
-                    },
-                    new Email
-                    {
-                        Sender = "test@test.pl",
-                        Subject = "test16",
-                        OwnerID = 1,
-                        Message = "czesc, co tam?",
-                        ReceivedTime = DateTime.Parse("2017-07-17 12:20:22"),
-                        Saved = true
                     }
                 };
 
                 foreach (Email email in emails)
                 {
                     context.Emails.Add(email);
+                }
+
+                context.SaveChanges();
+            }
+
+            if (!context.Employee.Any())
+            {
+                var employees = new Employee[]
+                {
+                    new Employee
+                    {
+                        FirstName = "Pawel",
+                        LastName = "Testowy",
+                        Position = "kierownik",
+                        Street = "Simple Street 1",
+                        Town = "new york",
+                        PostalCode = "",
+                        Voivodeship = 4,
+                        Country = 230
+                    }
+                };
+
+                foreach(Employee employee in employees)
+                {
+                    context.Employee.Add(employee);
                 }
 
                 context.SaveChanges();
