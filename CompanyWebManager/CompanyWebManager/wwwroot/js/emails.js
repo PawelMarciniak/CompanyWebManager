@@ -1,7 +1,11 @@
 
 
 function show(id) {
-    $(id).removeClass("hidden");
+    if ($(id).hasClass("hidden")) {
+        $(id).removeClass("hidden");
+    } else {
+        $(id).addClass("hidden");
+    }
 }
 
 function sendRequestToController($btnObj) {

@@ -20,15 +20,8 @@ using MimeKit;
 
 namespace CompanyWebManager.Helpers
 {
-    public class EmailSender
+    public class EmailHelper
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private ISession _session => _httpContextAccessor.HttpContext.Session;
-
-        public EmailSender(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
 
         public async Task<bool> Send(Email emailToSend, string login, string pass)
         {
@@ -115,7 +108,6 @@ namespace CompanyWebManager.Helpers
 
             using (var client = new ImapClient())
             {
-                // For demo-purposes, accept all SSL certificates
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                 await client.ConnectAsync("imap.gmail.com", 993, true);
@@ -130,7 +122,7 @@ namespace CompanyWebManager.Helpers
                     var message = inbox.GetMessage(uid);
                     //inbox.AddFlags(uid, MessageFlags.Seen, true);
 
-                    messages.Add(MapEmails(message));
+                    messages.Add(MapEmails(message, uid));
                 }
 
                 client.Disconnect(true);
@@ -138,24 +130,45 @@ namespace CompanyWebManager.Helpers
             }
         }
 
-        public  void SetEmailAsRead(string login, string pass, int id)
+        public  void SetEmailAsRead(string id)
         {
             using (var client = new ImapClient())
             {
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                 client.Connect("imap.gmail.com", 993, true);
-                //await client.AuthenticateAsync(login, pass);
                 client.Authenticate("webcompanymanager2017@gmail.com", "PawelNa100%");
 
                 var inbox = client.Inbox;
-                inbox.Open(FolderAccess.ReadOnly);
-                inbox.AddFlags(id, MessageFlags.Seen, true);
+                inbox.Open(FolderAccess.ReadWrite);
+                var uids = inbox.Search(SearchQuery.HeaderContains("Message-Id", id));
+                inbox.AddFlags(uids, MessageFlags.Seen, silent: true);
+
+                
                 client.Disconnect(true);
             }
         }
 
-        public Email MapEmails(MimeMessage message)
+        public void DeteleEmail(string id)
+        {
+            using (var client = new ImapClient())
+            {
+                client.ServerCertificateValidationCallback = (s, c, h, e) => true;
+
+                client.Connect("imap.gmail.com", 993, true);
+                client.Authenticate("webcompanymanager2017@gmail.com", "PawelNa100%");
+
+                var inbox = client.Inbox;
+                inbox.Open(FolderAccess.ReadWrite);
+                var uids = inbox.Search(SearchQuery.HeaderContains("Message-Id", id));
+                inbox.AddFlags(uids, MessageFlags.Deleted, silent: true);
+
+
+                client.Disconnect(true);
+            }
+        }
+
+        public Email MapEmails(MimeMessage message, UniqueId uid)
         {
             Email email = new Email();
 
@@ -164,25 +177,15 @@ namespace CompanyWebManager.Helpers
             email.CarbonCopy = message.Cc.ToString();
             email.ReceivedTime = message.Date.DateTime;
             email.Subject = message.Subject;
+            email.Uid = message.MessageId;
             email.Saved = false;
 
             return email;
         }
 
-        public async Task<Email> GetEmailToDisplay(int rowNum, bool saved, ApplicationDb context)
+        public async Task<Email> GetEmailToDisplay(int rowNum, bool saved, ApplicationDb context, ISession session)
         {
-            Email email = null;
-            if (saved)
-            {
-                email = await context.Emails
-                    .SingleOrDefaultAsync(m => m.ID == rowNum);
-            }
-            else
-            {
-                email = _session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
-            }
-
-            return email;
+            return saved ? await context.Emails.SingleOrDefaultAsync(m => m.ID == rowNum) : session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
         }
     }
 }

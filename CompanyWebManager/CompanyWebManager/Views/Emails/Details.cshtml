@@ -5,7 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>@if (!string.IsNullOrEmpty(Model.Subject))
+    {
+        @Html.DisplayFor(model => model.Subject)
+    }
+    else
+    {
+        @Html.Value("Wiadomosc");
+    }       
+</h2>
 
 <div>
     <h4>Email</h4>
@@ -74,6 +82,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Powrot do listy wiadomosci</a>
 </div>

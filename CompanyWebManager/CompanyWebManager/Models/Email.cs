@@ -38,6 +38,8 @@ namespace CompanyWebManager.Models
 
         public bool? Success{ get; set; }
 
+        public string Uid { get; set; }
+
         public bool? Saved { get; set; }
 
         public int OwnerID { get; set; }

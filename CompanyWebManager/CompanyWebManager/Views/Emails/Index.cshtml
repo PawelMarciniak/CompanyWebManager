@@ -2,17 +2,17 @@
 @model IEnumerable<CompanyWebManager.Models.Email>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Wiadomosci";
 }
 
 
-<h2>Index</h2>
+<h2>Wiadomosci</h2>
 
 <p>
-    <button asp-action="Create" type="button" class="btn">Utworz wiadomosc`</button>
+    <a asp-action="Create" class="btn btn-success">Utworz wiadomosc</a>
 </p>
 <p>
-    <button onclick="show('#loginForm');" class="btn">Osdbierz wiadomosci</button>
+    <button onclick="show('#loginForm');" class="btn btn-success">Odbierz wiadomosci</button>
 </p>
 
 <form  asp-action="ReceiveEmails" class="hidden" id="loginForm">
@@ -34,19 +34,19 @@
     <table class="table">
         <thead>
         <tr>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.Sender)
             </th>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
-            <th>
+            <th class="col-md-3">
                 @Html.DisplayNameFor(model => model.Message)
             </th>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.ReceivedTime)
             </th>
-            <th></th>
+            <th class="col-md-3"></th>
         </tr>
         </thead>
         <tbody>
@@ -56,69 +56,71 @@
         {
 
             <tr>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.Sender)
                 </td>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
-                <td>
+                <td class="col-md-3">
                     @Html.DisplayFor(modelItem => item.MessageToDisplay)
                 </td>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
-                <td>
-                    <button type="button" data-request-url="@Url.Action("SaveEmail")" onclick="sendRequestToController($(this));" class="btn btn-success">Zapisz do bazy</button>
-                    @*<button type="button" asp-controller="Emails" asp-action="OpenEmail" data-request-url="@Url.Action("OpenEmailAsync")" onclick="sendRequestToController($(this));" class="btn btn-success">Otworz</button>*@
-                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@(i)" asp-route-saved="false">Details</a>
+                <td class="col-md-3">
+                    <a class="btn btn-success"  asp-action="SaveEmail" asp-route-id="@(i)" >Zapisz do bazy</a>
+                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@(i)" asp-route-saved="false">Przeczytaj</a>
+                    <a class="btn btn-success" asp-action="Delete" asp-route-id="@(i)" asp-route-saved="false">Usuñ</a>
                 </td>
             </tr>
             i++;
         }
         </tbody>
     </table>
-}
+}else
+{
+    <p>Brak nowych wiadomosci</p>
+} 
 
 @if (Model.Any(x => x.Saved == true))
 {
     <table class="table">
         <thead>
         <tr>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.Sender)
             </th>
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
-            <th>
+            <th class="col-md-3">
                 @Html.DisplayNameFor(model => model.Message)
-            <th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.ReceivedTime)
             </th>
-            <th></th>
+            <th class="col-md-3"></th>
         </tr>
         </thead>
         <tbody>
         @foreach (var item in Model.Where(x => x.Saved == true))
         {
             <tr>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.Sender)
                 </td>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
-                <td>
+                <td class="col-md-3">
                     @Html.DisplayFor(modelItem => item.Message)
                 </td>
-                <td>
+                <td class="col-md-2">
                     @Html.DisplayFor(modelItem => item.ReceivedTime)
                 </td>
-                <td>
-                    <button type="button" asp-action="Delete" asp-controller="Emails" asp-route-id="@item.ID" class="btn btn-success">Usun z bazy</button>
-                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@item.ID" asp-route-saved="true">Details</a>
-                    <a asp-action="OpenEmailAsync" asp-route-id="@item.ID" asp-route-saved="true">Details2</a>
+                <td class="col-md-3 text-center">
+                    <a class="btn btn-success" asp-action="OpenEmailAsync" asp-route-id="@item.ID" asp-route-saved="true">Przeczytaj</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-controller="Emails" asp-route-id="@item.ID" aspo-route-saved="true">Usun z bazy</a>
                 </td>
             </tr>
         }

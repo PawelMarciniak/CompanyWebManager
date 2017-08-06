@@ -16,7 +16,7 @@ namespace CompanyWebManager.Controllers
     public class EmailsController : Controller
     {
         private readonly ApplicationDb _context;
-        private EmailSender es = new EmailSender();
+        private EmailHelper es = new EmailHelper();
 
         public EmailsController(ApplicationDb context)
         {
@@ -36,31 +36,23 @@ namespace CompanyWebManager.Controllers
             return View();
         }
 
-        // POST: Emails/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Save([Bind("ID,Receiver,CarbonCopy,BlindCarbonCopy,Subject,Message,ReceivedTime")] Email email)
+        [HttpPost, HttpGet]
+        public async Task<IActionResult> SaveEmail(int id)
         {
-                _context.Add(email);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("ReceiveEmails");
-        }
-
-        [HttpPost]
-        public bool SaveEmail(int rowNum)
-        {
-            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
+            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
+            msg.OwnerID = 1;
+            msg.Saved = true;
             _context.Add(msg);
-            _context.SaveChangesAsync();
-            return true;
+            await _context.SaveChangesAsync();
+
+            es.SetEmailAsRead(msg.Uid);
+            HttpContext.Session.RemoveFromSessionList<Email>("ReceivedEmails", id);
+            return RedirectToAction("ReceiveEmails");
         }
 
         public async Task<IActionResult> OpenEmailAsync(int id, bool saved)
         {
-            Email test = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
-            var email = await es.GetEmailToDisplay(id, saved, _context);
+            var email = await es.GetEmailToDisplay(id, saved, _context, HttpContext.Session);
 
             if (email == null)
             {
@@ -70,47 +62,31 @@ namespace CompanyWebManager.Controllers
             return View("DisplayEmail", email);
         }
 
-        // GET: Emails/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id, bool saved)
         {
-            if (id == null)
+            Email email;
+
+            if (saved)
             {
-                return NotFound();
+                email = await _context.Emails.SingleOrDefaultAsync(m => m.ID == id);
+                _context.Emails.Remove(email);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                email = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
+                es.DeteleEmail(email.Uid);
             }
 
-            var email = await _context.Emails
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (email == null)
-            {
-                return NotFound();
-            }
-
-            return View(email);
-        }
-
-        // POST: Emails/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var email = await _context.Emails.SingleOrDefaultAsync(m => m.ID == id);
-            _context.Emails.Remove(email);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool EmailExists(int id)
-        {
-            return _context.Emails.Any(e => e.ID == id);
+            return RedirectToAction("ReceiveEmails");
         }
 
         [HttpPost]
         public async Task<IActionResult> SendEmails(Email email, string login, string pass)
         {
             await es.Send(email, login, pass);
+            return RedirectToAction("ReceiveEmails");
 
-            return View("Index");
-            
         }
 
         public async Task<IActionResult> ReceiveEmails(string login, string pass)

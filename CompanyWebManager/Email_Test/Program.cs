@@ -17,7 +17,7 @@ namespace Email_Test
 
         public static void Sendd()
         {
-            EmailSender email = new EmailSender();
+            EmailHelper email = new EmailHelper();
             List<string> receivers = new List<string>();
             receivers.Add("pawel.marciniak92@gmail.com");
             receivers.Add("pawel_m_92@wp.pl");

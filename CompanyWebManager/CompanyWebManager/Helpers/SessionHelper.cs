@@ -30,7 +30,15 @@ namespace CompanyWebManager.Helpers
             var list = JsonConvert.DeserializeObject<List<T>>(value);
 
 
-            return value == null ? default(T) : list[itemNum];
+            return list.Any() ? list[itemNum] : default(T);
+        }
+
+        public static void RemoveFromSessionList<T>(this ISession session, string key, int itemNum)
+        {
+            var value = session.GetString(key);
+            var list = JsonConvert.DeserializeObject<List<T>>(value);
+            list.RemoveAt(itemNum);
+
         }
 
     }
