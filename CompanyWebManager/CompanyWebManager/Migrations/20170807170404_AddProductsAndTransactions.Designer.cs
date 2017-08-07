@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170807170404_AddProductsAndTransactions")]
+    partial class AddProductsAndTransactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -210,50 +211,6 @@ namespace CompanyWebManager.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Owners");
-                });
-
-            modelBuilder.Entity("CompanyWebManager.Models.Product", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CompanyID");
-
-                    b.Property<string>("Description");
-
-                    b.Property<decimal>("GrossPrice");
-
-                    b.Property<string>("Name");
-
-                    b.Property<decimal>("NetPrice");
-
-                    b.Property<int>("Quantity");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("CompanyWebManager.Models.Transaction", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<decimal>("ProductGrossPrice");
-
-                    b.Property<int>("ProductID");
-
-                    b.Property<decimal>("ProductNetPrice");
-
-                    b.Property<int>("TransactionID");
-
-                    b.Property<string>("Type");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("CompanyWebManager.Models.Voivodeship", b =>

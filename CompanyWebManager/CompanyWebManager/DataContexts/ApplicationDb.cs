@@ -45,6 +45,8 @@ namespace CompanyWebManager.DataContexts
             builder.Entity<Country>().ToTable("Countries");
             builder.Entity<Email>().ToTable("Emails");
             builder.Entity<Employee>().ToTable("Employees");
+            builder.Entity<Product>().ToTable("Products");
+            builder.Entity<Transaction>().ToTable("Transactions");
 
 
         }
@@ -55,7 +57,9 @@ namespace CompanyWebManager.DataContexts
         public DbSet<Owner> Owners { get; set; }
         public DbSet<Voivodeship> Voivodeships { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<CompanyWebManager.Models.Employee> Employee { get; set; }
+        public DbSet<Employee> Employee { get; set; }
+        public DbSet<Product> Product { get; set; }
+        public DbSet<Transaction> Transaction { get; set; }
 
     }
 }

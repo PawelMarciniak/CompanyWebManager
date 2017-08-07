@@ -16,6 +16,8 @@ namespace CompanyWebManager.Data
 
             if (!context.Voivodeships.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Voivodeships', RESEED, 0)");
+
                 var voivodeships = new Voivodeship[]
                 {
                     new Voivodeship { Name = "Dolnośląskie" },
@@ -46,6 +48,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Countries.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Countries', RESEED, 0)");
 
                 var countries = new Country[]
                 {
@@ -323,10 +326,11 @@ namespace CompanyWebManager.Data
 
             if (!context.Companies.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 0)");
                 var companies = new Company[]
                 {
-                    new Company { Name = "TestowaFirma1", Trade = "IT", Street = "Testowa 1/11", Town = "Bydgoszcz", PostalCode = "85-333", Voivodeship = 1, Country = 1},
-                    new Company { Name = "TestowaFirma2", Trade = "IT", Street = "Testowa 2/122", Town = "warszawa", PostalCode = "22-333", Voivodeship = 5, Country = 177}
+                    new Company { Name = "TestowaFirma1", Trade = "IT", Street = "Testowa 1/11", Town = "Bydgoszcz", PostalCode = "85-333", Voivodeship = 1, Country = 1, OwnerID = 1},
+                    new Company { Name = "TestowaFirma2", Trade = "IT", Street = "Testowa 2/122", Town = "warszawa", PostalCode = "22-333", Voivodeship = 5, Country = 177, OwnerID = 2}
 
                 };
 
@@ -340,6 +344,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Emails.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Emails', RESEED, 0)");
                 var emails = new Email[]
                 {
                     new Email
@@ -444,6 +449,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Employee.Any())
             {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Employees', RESEED, 0)");
                 var employees = new Employee[]
                 {
                     new Employee
