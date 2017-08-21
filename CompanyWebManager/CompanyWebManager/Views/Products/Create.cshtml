@@ -1,15 +1,15 @@
 @model CompanyWebManager.Models.Product
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Stworz produkt";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2>Stworz produkt</h2>
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>Product</h4>
+        <h4>Produkt</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
@@ -41,10 +41,10 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Units" class="col-md-2 control-label"></label>
+            <label asp-for="Quantity" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Units" class="form-control" />
-                <span asp-validation-for="Units" class="text-danger"></span>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
@@ -56,6 +56,6 @@
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Wroc do listy produktow</a>
 </div>
 

@@ -1,0 +1,102 @@
+@model CompanyWebManager.Models.Transaction
+
+@{
+    ViewData["Title"] = "Stworz transakcje";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="@Url.Content("~/lib/jquery-ui/jquery-ui.css")"
+      rel="stylesheet" type="text/css" />
+
+<h2>Nowa transakcja</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*<div class="form-group">
+            <label asp-for="TransactionID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="TransactionID" class="form-control" />
+                <span asp-validation-for="TransactionID" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="Type" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                @{
+                    var selectList = new SelectList(
+                        new List<SelectListItem>
+                        {
+                            new SelectListItem {Text = "Przychod", Value = "1"},
+                            new SelectListItem {Text = "Rozchod", Value = "2"},
+                        }, "Value", "Text");
+                }
+                @Html.DropDownListFor(m => m.Type, selectList, "Wybierz", new { @class = "form-control", id = "type" })
+                @*<input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>*@
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <span asp-validation-for="Description" class="text-danger"></span>
+                <textarea asp-for="Description" id="descripion" class="form-control" rows="5"></textarea>
+            </div>
+        </div>
+    </div>
+    <table class="table" id="tableProducts" data-request-url="SaveTransaction">
+        <thead>
+        <tr>
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.ProductID)
+            </th>
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.ProductNetPrice)
+            </th>
+            <th class="col-md-3">
+                @Html.DisplayNameFor(model => model.ProductGrossPrice)
+            </th>
+            <th class="col-md-3">
+                @Html.DisplayNameFor(model => model.ProductUnits)
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="col-md-2">
+                <div class="ui-widget">
+                    <input asp-for="ProductID" type="hidden" class="form-control productID"/>
+                    <input type="text" data-request-url="Search" class="form-control product"/>
+                </div>
+            </td>
+            <td class="col-md-2">
+                <input asp-for="ProductNetPrice" class="form-control netPrice" />
+            </td>
+            <td class="col-md-3">
+                <input asp-for="ProductGrossPrice" class="form-control grossPrice" disabled="disabled" />
+            </td>
+            <td class="col-md-2">
+                <input asp-for="ProductUnits" class="form-control units" />
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <p>
+        <input type="button" value="Dodaj produkt" class="btn btn-success" onclick="cloneRow();"/>
+    </p>
+    <p>
+        <input class="btn btn-success" type="button" value="Stworz transakcje" onclick="saveTransaction();" />
+    </p>
+</form>
+
+<div>
+    <a class="btn btn-default" asp-action="Index">Powrot do listy transakcji</a>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <script src="~/js/transactions.js"></script>
+}
+

@@ -13,8 +13,12 @@ namespace CompanyWebManager.Models
         public int TransactionID { get; set; }
 
         [Display(Name = "Typ")]
-        public string Type { get; set; }
+        public int Type { get; set; }
 
+        [Display(Name = "Opis")]
+        public string Description { get; set; }
+
+        [Display(Name = "Produkt")]
         public int ProductID { get; set; }
 
         [Display(Name = "Cena Netto")]
@@ -25,5 +29,10 @@ namespace CompanyWebManager.Models
 
         [Display(Name = "Data")]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Ilosc")]
+        public int ProductUnits { get; set; }
+
+        public List<Product> Products { get; set; }
     }
 }

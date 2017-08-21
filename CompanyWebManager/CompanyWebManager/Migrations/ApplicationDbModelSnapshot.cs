@@ -241,15 +241,19 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<string>("Description");
+
                     b.Property<decimal>("ProductGrossPrice");
 
                     b.Property<int>("ProductID");
 
                     b.Property<decimal>("ProductNetPrice");
 
+                    b.Property<int>("ProductUnits");
+
                     b.Property<int>("TransactionID");
 
-                    b.Property<string>("Type");
+                    b.Property<int>("Type");
 
                     b.HasKey("ID");
 

@@ -34,11 +34,7 @@ namespace CompanyWebManager.Controllers
             {
                 return RedirectToAction("Index", "Emails", new { area = "" });
             }
-            else
-            {
-                return RedirectToAction("Login", "Account", new { area = "" });
-            }
-            
+            return RedirectToAction("Login", "Account", new { area = "" });
         }
 
         public IActionResult About()

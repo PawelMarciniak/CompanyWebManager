@@ -20,22 +20,22 @@ namespace CompanyWebManager.Data
 
                 var voivodeships = new Voivodeship[]
                 {
-                    new Voivodeship { Name = "Dolnośląskie" },
-                    new Voivodeship { Name = "Kujawsko-pomorskie" },
-                    new Voivodeship { Name = "Lubelskie" },
-                    new Voivodeship { Name = "Lubuskie" },
-                    new Voivodeship { Name = "Łódzkie" },
-                    new Voivodeship { Name = "Małopolskie" },
-                    new Voivodeship { Name = "Mazowieckie" },
-                    new Voivodeship { Name = "Opolskie" },
-                    new Voivodeship { Name = "Podkarpackie" },
-                    new Voivodeship { Name = "Podlaskie" },
-                    new Voivodeship { Name = "Pomorskie" },
-                    new Voivodeship { Name = "Śląskie" },
-                    new Voivodeship { Name = "Świętokrzyskie" },
-                    new Voivodeship { Name = "Warmińsko-mazurskie" },
-                    new Voivodeship { Name = "Wielkopolskie" },
-                    new Voivodeship { Name = "Zachodniopomorskie" }
+                    new Voivodeship {Name = "Dolnośląskie"},
+                    new Voivodeship {Name = "Kujawsko-pomorskie"},
+                    new Voivodeship {Name = "Lubelskie"},
+                    new Voivodeship {Name = "Lubuskie"},
+                    new Voivodeship {Name = "Łódzkie"},
+                    new Voivodeship {Name = "Małopolskie"},
+                    new Voivodeship {Name = "Mazowieckie"},
+                    new Voivodeship {Name = "Opolskie"},
+                    new Voivodeship {Name = "Podkarpackie"},
+                    new Voivodeship {Name = "Podlaskie"},
+                    new Voivodeship {Name = "Pomorskie"},
+                    new Voivodeship {Name = "Śląskie"},
+                    new Voivodeship {Name = "Świętokrzyskie"},
+                    new Voivodeship {Name = "Warmińsko-mazurskie"},
+                    new Voivodeship {Name = "Wielkopolskie"},
+                    new Voivodeship {Name = "Zachodniopomorskie"}
                 };
 
                 foreach (Voivodeship v in voivodeships)
@@ -312,9 +312,9 @@ namespace CompanyWebManager.Data
                 context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 0)");
                 var owners = new Owner[]
                 {
-                    new  Owner { FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now },
-                    new  Owner { FirstName = "janusz", LastName = "januszowy", Created = DateTime.Parse("2017-07-17") },
-                    new  Owner { FirstName = "grazyna", LastName = "poplecka", Created = DateTime.Parse("2017-07-15")}
+                    new Owner {FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now},
+                    new Owner {FirstName = "janusz", LastName = "januszowy", Created = DateTime.Parse("2017-07-17")},
+                    new Owner {FirstName = "grazyna", LastName = "poplecka", Created = DateTime.Parse("2017-07-15")}
                 };
 
                 foreach (Owner o in owners)
@@ -329,8 +329,28 @@ namespace CompanyWebManager.Data
                 context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 0)");
                 var companies = new Company[]
                 {
-                    new Company { Name = "TestowaFirma1", Trade = "IT", Street = "Testowa 1/11", Town = "Bydgoszcz", PostalCode = "85-333", Voivodeship = 1, Country = 1, OwnerID = 1},
-                    new Company { Name = "TestowaFirma2", Trade = "IT", Street = "Testowa 2/122", Town = "warszawa", PostalCode = "22-333", Voivodeship = 5, Country = 177, OwnerID = 2}
+                    new Company
+                    {
+                        Name = "TestowaFirma1",
+                        Trade = "IT",
+                        Street = "Testowa 1/11",
+                        Town = "Bydgoszcz",
+                        PostalCode = "85-333",
+                        Voivodeship = 1,
+                        Country = 1,
+                        OwnerID = 1
+                    },
+                    new Company
+                    {
+                        Name = "TestowaFirma2",
+                        Trade = "IT",
+                        Street = "Testowa 2/122",
+                        Town = "warszawa",
+                        PostalCode = "22-333",
+                        Voivodeship = 5,
+                        Country = 177,
+                        OwnerID = 2
+                    }
 
                 };
 
@@ -465,9 +485,171 @@ namespace CompanyWebManager.Data
                     }
                 };
 
-                foreach(Employee employee in employees)
+                foreach (Employee employee in employees)
                 {
                     context.Employee.Add(employee);
+                }
+
+                context.SaveChanges();
+            }
+
+            if (!context.Product.Any())
+            {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Products', RESEED, 0)");
+                var products = new Product[]
+                {
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "karta graficzna 1",
+                        Description = "bardzo fajna karta graficzna",
+                        GrossPrice = 184.50M,
+                        NetPrice = 150.00M,
+                        Quantity = 20
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "karta graficzna 2",
+                        Description = "fajna karta graficzna",
+                        GrossPrice = 246.00M,
+                        NetPrice = 200.00M,
+                        Quantity = 15
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "karta graficzna 3",
+                        Description = "srednia karta graficzna",
+                        GrossPrice = 123.00M,
+                        NetPrice = 100.00M,
+                        Quantity = 10
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "klawiatura logitech",
+                        Description = "bardzo fajna klawiatura logitech",
+                        GrossPrice = 55.35M,
+                        NetPrice = 45.00M,
+                        Quantity = 25
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "klawiatura apple",
+                        Description = "klawiatura do jablek",
+                        GrossPrice = 307.50M,
+                        NetPrice = 250.00M,
+                        Quantity = 5
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "router asus",
+                        Description = "najnowszy router od asusa",
+                        GrossPrice = 73.80M,
+                        NetPrice = 60.00M,
+                        Quantity = 12
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "router tp-link",
+                        Description = "tp-link router",
+                        GrossPrice = 36.90M,
+                        NetPrice = 30.00M,
+                        Quantity = 10
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "myszka razor v3",
+                        Description = "bezprzewodowa mysz dla graczy",
+                        GrossPrice = 98.40M,
+                        NetPrice = 80.00M,
+                        Quantity = 20
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "mysz logitech",
+                        Description = "designerska mysz od logitecha",
+                        GrossPrice = 110.70M,
+                        NetPrice = 90.00M,
+                        Quantity = 8
+                    },
+
+                    new Product
+                    {
+                        CompanyID = 1,
+                        Name = "sprezone powietrze",
+                        Description = "srodek do czyszcenia komputerow stacjonarnych, laptopow, klawiatur i innych sprzetow",
+                        GrossPrice = 18.45M,
+                        NetPrice = 15.00M,
+                        Quantity = 45
+                    }
+                };
+
+                foreach (Product product in products)
+                {
+                    context.Product.Add(product);
+                }
+
+                context.SaveChanges();
+            }
+
+            if (!context.Transaction.Any())
+            {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Transactions', RESEED, 0)");
+
+                var transactions = new Transaction[]
+                {
+                    new Transaction
+                    {
+                        ProductID = 1,
+                        ProductGrossPrice = 184.50M,
+                        ProductNetPrice = 150.00M,
+                        ProductUnits = 2,
+                        Type = 1,
+                        TransactionID = 1,
+                        Date = DateTime.Now
+                    },
+
+                    new Transaction
+                    {
+                        ProductID = 4,
+                        ProductGrossPrice = 55.35M,
+                        ProductNetPrice = 45.00M,
+                        ProductUnits = 1,
+                        Type = 1,
+                        TransactionID = 1,
+                        Date = DateTime.Now
+                    },
+
+                    new Transaction
+                    {
+                        ProductID = 6,
+                        ProductGrossPrice = 73.80M,
+                        ProductNetPrice = 60.00M,
+                        ProductUnits = 1,
+                        Type = 1,
+                        TransactionID = 1,
+                        Date = DateTime.Now
+                    }
+                };
+
+                foreach (Transaction transaction in transactions)
+                {
+                    context.Transaction.Add(transaction);
                 }
 
                 context.SaveChanges();

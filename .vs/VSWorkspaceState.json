@@ -9,8 +9,7 @@
     "\\CompanyWebManager\\CompanyWebManager\\Views",
     "\\CompanyWebManager\\CompanyWebManager\\Views\\Emails",
     "\\CompanyWebManager\\CompanyWebManager\\wwwroot",
-    "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\css",
-    "\\CompanyWebManager\\Email_Test"
+    "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\js"
   ],
   "SelectedNode": "\\CompanyWebManager\\CompanyWebManager\\CompanyWebManager.csproj",
   "PreviewInSolutionExplorer": false
