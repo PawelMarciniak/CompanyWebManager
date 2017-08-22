@@ -22,7 +22,7 @@
             </div>
         </div>*@
         <div class="form-group">
-            <label asp-for="Type" class="col-md-2 control-label"></label>
+            <label class="col-md-2 control-label"></label>
             <div class="col-md-10">
                 @{
                     var selectList = new SelectList(
@@ -32,32 +32,38 @@
                             new SelectListItem {Text = "Rozchod", Value = "2"},
                         }, "Value", "Text");
                 }
-                @Html.DropDownListFor(m => m.Type, selectList, "Wybierz", new { @class = "form-control", id = "type" })
+                @Html.DropDownList("Type", selectList, "Wybierz", new { @class = "form-control", id = "type" })
                 @*<input asp-for="Type" class="form-control" />
                 <span asp-validation-for="Type" class="text-danger"></span>*@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <label class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <span asp-validation-for="Description" class="text-danger"></span>
-                <textarea asp-for="Description" id="descripion" class="form-control" rows="5"></textarea>
+                <span class="text-danger"></span>
+                <textarea id="descripion" class="form-control" rows="5"></textarea>
             </div>
         </div>
     </div>
-    <table class="table" id="tableProducts" data-request-url="SaveTransaction">
+    <table class="table" id="tableProducts" data-request-url="Save">
         <thead>
         <tr>
             <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.ProductID)
             </th>
             <th class="col-md-2">
-                @Html.DisplayNameFor(model => model.ProductNetPrice)
+                @Html.DisplayNameFor(model => model.UnitNetPrice)
             </th>
-            <th class="col-md-3">
-                @Html.DisplayNameFor(model => model.ProductGrossPrice)
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.UnitGrossPrice)
             </th>
-            <th class="col-md-3">
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.NetPrice)
+            </th>
+            <th class="col-md-2">
+                @Html.DisplayNameFor(model => model.GrossPrice)
+            </th>
+            <th class="col-md-2">
                 @Html.DisplayNameFor(model => model.ProductUnits)
             </th>
         </tr>
@@ -71,13 +77,19 @@
                 </div>
             </td>
             <td class="col-md-2">
-                <input asp-for="ProductNetPrice" class="form-control netPrice" />
-            </td>
-            <td class="col-md-3">
-                <input asp-for="ProductGrossPrice" class="form-control grossPrice" disabled="disabled" />
+                <input asp-for="UnitNetPrice" class="form-control unitNetPrice" />
             </td>
             <td class="col-md-2">
-                <input asp-for="ProductUnits" class="form-control units" />
+                <input asp-for="UnitGrossPrice" class="form-control unitGrossPrice" disabled="disabled" />
+            </td>
+            <td class="col-md-2">
+                <input asp-for="NetPrice" class="form-control netPrice" disabled="disabled" />
+            </td>
+            <td class="col-md-2">
+                <input asp-for="GrossPrice" class="form-control grossPrice" disabled="disabled" />
+            </td>
+            <td class="col-md-2">
+                <input asp-for="ProductUnits" class="form-control units" onchange="calculatePrices($(this))" />
             </td>
         </tr>
         </tbody>

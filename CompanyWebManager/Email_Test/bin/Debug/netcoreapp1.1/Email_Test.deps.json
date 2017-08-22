@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "7845895d7e3a740fa402187fe22d96415d650128"
+    "signature": "89aee36ee48656e88b74afd1c7627fec63ee0df4"
   },
   "compilationOptions": {},
   "targets": {
@@ -21,6 +21,11 @@
         }
       },
       "jquery/3.1.1": {},
+      "jquery.ui.combined/1.12.1": {
+        "dependencies": {
+          "jQuery": "3.1.1"
+        }
+      },
       "mailkit/1.16.1": {
         "dependencies": {
           "MimeKit": "1.16.1",
@@ -1113,7 +1118,8 @@
           "Microsoft.VisualStudio.Web.BrowserLink": "1.1.2",
           "NETCore.MailKit": "1.1.1",
           "bootstrap": "3.3.7",
-          "jQuery": "3.1.1"
+          "jQuery": "3.1.1",
+          "jQuery.UI.Combined": "1.12.1"
         },
         "runtime": {
           "CompanyWebManager.dll": {}
@@ -1140,6 +1146,13 @@
       "sha512": "sha512-XGsgwse025NxNPHjY7GE8HMFNzjqsa7a/PmNS1S5bVU++pNpZmiTnzUBK6OmECnqG/fIMVaAYHTnfoYd/Wz28g==",
       "path": "jquery/3.1.1",
       "hashPath": "jquery.3.1.1.nupkg.sha512"
+    },
+    "jquery.ui.combined/1.12.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5B0LrPZ0TLlwplPRu43h7fgMtDxMMEF31HajUqHSOJ7bC6nyJUJy7AkcuGaJdBrrZAZutnSBgXT01BGiIIC4TQ==",
+      "path": "jquery.ui.combined/1.12.1",
+      "hashPath": "jquery.ui.combined.1.12.1.nupkg.sha512"
     },
     "mailkit/1.16.1": {
       "type": "package",

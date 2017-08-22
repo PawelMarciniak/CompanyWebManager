@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170822181339_TransactionDescriptionAdd")]
+    partial class TransactionDescriptionAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -243,6 +244,8 @@ namespace CompanyWebManager.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<DateTime>("Date");
+
                     b.Property<decimal>("GrossPrice");
 
                     b.Property<decimal>("NetPrice");
@@ -266,8 +269,6 @@ namespace CompanyWebManager.Migrations
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
 

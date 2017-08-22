@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
+using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.WebEncoders.Testing;
@@ -15,6 +16,7 @@ namespace CompanyWebManager.Controllers
     public class TransactionsController : Controller
     {
         private readonly ApplicationDb _context;
+        private TransactionHelper ts = new TransactionHelper();
 
         public TransactionsController(ApplicationDb context)
         {
@@ -24,7 +26,7 @@ namespace CompanyWebManager.Controllers
         // GET: Transactions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Transaction.ToListAsync());
+            return View(await _context.TransactionDescription.ToListAsync());
         }
 
         [HttpPost]
@@ -62,14 +64,28 @@ namespace CompanyWebManager.Controllers
         }
 
         [HttpPost]
-        public ActionResult SaveTransaction([FromBody]TransactionData transaction)
+        public ActionResult Save([FromBody]TransactionData transactionData)
         {
-            //cala kwota za produkt - przy wiekszej ilosci sztuk?
-            string name = "test";
-            var routeList = _context.Product.Where(r => r.Name.Contains(name))
-                .Take(5)
-                .Select(r => new { id = r.ID, label = r.Name, netprice = r.NetPrice, grossprice = r.GrossPrice });
-            return Json(routeList);
+            if (transactionData != null)
+            {
+                if (ModelState.IsValid)
+                {
+                    try
+                    {
+                        ts.SaveTransaction(transactionData, _context);
+                    }
+                    catch 
+                    {
+                      return  Json("Error");
+                    }
+                }
+            }
+            else
+            {
+                return Json("Error");
+            }
+
+            return Json("Success");
         }
 
         [HttpPost]

@@ -10,28 +10,25 @@ namespace CompanyWebManager.Models
     {
         public int ID { get; set; }
 
-        public int TransactionID { get; set; }
-
-        [Display(Name = "Typ")]
-        public int Type { get; set; }
-
-        [Display(Name = "Opis")]
-        public string Description { get; set; }
+        public int TransactionDescriptionID { get; set; }
 
         [Display(Name = "Produkt")]
         public int ProductID { get; set; }
 
-        [Display(Name = "Cena Netto")]
-        public decimal ProductNetPrice { get; set; }
+        [Display(Name = "Cena Netto za szt")]
+        public decimal UnitNetPrice { get; set; }
 
-        [Display(Name = "Cena Brutto")]
-        public decimal ProductGrossPrice { get; set; }
-
-        [Display(Name = "Data")]
-        public DateTime Date { get; set; }
+        [Display(Name = "Cena Brutto za szt")]
+        public decimal UnitGrossPrice { get; set; }
 
         [Display(Name = "Ilosc")]
         public int ProductUnits { get; set; }
+
+        [Display(Name = "Kwota Netto")]
+        public decimal NetPrice { get; set; }
+
+        [Display(Name = "Kwota Brutto")]
+        public decimal GrossPrice { get; set; }
 
         public List<Product> Products { get; set; }
     }

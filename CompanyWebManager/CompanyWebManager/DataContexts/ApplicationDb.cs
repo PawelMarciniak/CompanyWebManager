@@ -47,6 +47,7 @@ namespace CompanyWebManager.DataContexts
             builder.Entity<Employee>().ToTable("Employees");
             builder.Entity<Product>().ToTable("Products");
             builder.Entity<Transaction>().ToTable("Transactions");
+            builder.Entity<TransactionDescription>().ToTable("TransactionDescriptions");
 
 
         }
@@ -60,6 +61,7 @@ namespace CompanyWebManager.DataContexts
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Product> Product { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
+        public DbSet<TransactionDescription> TransactionDescription { get; set; }
 
     }
 }

@@ -16,7 +16,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Voivodeships.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Voivodeships', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Voivodeships', RESEED, 1)");
 
                 var voivodeships = new Voivodeship[]
                 {
@@ -48,7 +48,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Countries.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Countries', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Countries', RESEED, 1)");
 
                 var countries = new Country[]
                 {
@@ -309,7 +309,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Owners.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 1)");
                 var owners = new Owner[]
                 {
                     new Owner {FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now},
@@ -326,7 +326,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Companies.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 1)");
                 var companies = new Company[]
                 {
                     new Company
@@ -364,7 +364,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Emails.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Emails', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Emails', RESEED, 1)");
                 var emails = new Email[]
                 {
                     new Email
@@ -469,7 +469,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Employee.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Employees', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Employees', RESEED, 1)");
                 var employees = new Employee[]
                 {
                     new Employee
@@ -495,7 +495,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Product.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Products', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Products', RESEED, 1)");
                 var products = new Product[]
                 {
                     new Product
@@ -607,43 +607,65 @@ namespace CompanyWebManager.Data
                 context.SaveChanges();
             }
 
+            if (!context.TransactionDescription.Any())
+            {
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('TransactionDescriptions', RESEED, 1)");
+
+                var transactionDescriptions = new TransactionDescription[]
+                {
+                    new TransactionDescription
+                    {
+                        Type = 2,
+                        Description = "Sprzedaz 1",
+                        Date = DateTime.Now
+                    }
+                };
+
+                foreach (TransactionDescription tranDesc in transactionDescriptions)
+                {
+                    context.TransactionDescription.Add(tranDesc);
+                }
+
+                context.SaveChanges();
+            }
+
             if (!context.Transaction.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Transactions', RESEED, 0)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Transactions', RESEED, 1)");
 
                 var transactions = new Transaction[]
                 {
                     new Transaction
                     {
                         ProductID = 1,
-                        ProductGrossPrice = 184.50M,
-                        ProductNetPrice = 150.00M,
+                        UnitGrossPrice = 184.50M,
+                        UnitNetPrice = 150.00M,
                         ProductUnits = 2,
-                        Type = 1,
-                        TransactionID = 1,
-                        Date = DateTime.Now
+                        TransactionDescriptionID = 1,
+                        GrossPrice = 369.00M,
+                        NetPrice = 300.00M
                     },
 
                     new Transaction
                     {
                         ProductID = 4,
-                        ProductGrossPrice = 55.35M,
-                        ProductNetPrice = 45.00M,
+                        UnitGrossPrice = 55.35M,
+                        UnitNetPrice = 45.00M,
                         ProductUnits = 1,
-                        Type = 1,
-                        TransactionID = 1,
-                        Date = DateTime.Now
+                        TransactionDescriptionID = 1,
+                        GrossPrice = 55.35M,
+                        NetPrice = 45.00M
                     },
 
                     new Transaction
                     {
                         ProductID = 6,
-                        ProductGrossPrice = 73.80M,
-                        ProductNetPrice = 60.00M,
+                        UnitGrossPrice = 73.80M,
+                        UnitNetPrice = 60.00M,
                         ProductUnits = 1,
-                        Type = 1,
-                        TransactionID = 1,
-                        Date = DateTime.Now
+                        TransactionDescriptionID = 1,
+                        GrossPrice = 73.80M,
+                        NetPrice = 60.00M
                     }
                 };
 

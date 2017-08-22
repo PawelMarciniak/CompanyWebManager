@@ -1,4 +1,4 @@
-@model IEnumerable<CompanyWebManager.Models.Transaction>
+@model IEnumerable<CompanyWebManager.Models.TransactionDescription>
 
 @{
     ViewData["Title"] = "Index";
@@ -14,19 +14,13 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.TransactionID)
+                    @Html.DisplayNameFor(model => model.ID)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Type)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ProductID)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductNetPrice)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ProductGrossPrice)
+                    @Html.DisplayNameFor(model => model.Description)
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.Date)
@@ -38,19 +32,13 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.TransactionID)
+                @Html.DisplayFor(modelItem => item.ID)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductID)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductNetPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductGrossPrice)
+                @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
