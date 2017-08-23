@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.WebEncoders.Testing;
 
@@ -40,12 +41,49 @@ namespace CompanyWebManager.Controllers
         }
 
         // GET: Transactions/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+
+            var transDesc = _context.TransactionDescription.SingleOrDefault(t => t.ID == id);
+
+            //from s in db.Services
+            //    join sa in db.ServiceAssignments on s.Id equals sa.ServiceId
+            //    where sa.LocationId == 1
+            //    select s
+
+            var productsOfTransactions = (from t in _context.Transaction
+                join p in _context.Product on t.ProductID equals p.ID
+                where t.TransactionDescriptionID == id
+                select t);
+
+
+            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID,
+            //    (p, pr) => new { Transaction = p, Product = pr });
+
+            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID)
+            //    .Where(tr => tr.);
+
+
+
+            //_context.TransactionDescription
+            //.Join(_context.Transaction, td => td.ID, t => t.TransactionDescriptionID,
+            //    (td, t) => new {TransactionDescription = td, Transaction = t})
+            //.Join(_context.Product, p => p.Transaction.ProductID, pr => pr.ID,
+            //    (p, pr) => new {Transaction = p, Product = pr})
+            //.Where(transdesc => transdesc.Transaction.TransactionDescription.ID == id)
+            //.SelectMany(transdesc => new ProductsOfTransaction
+            //{
+            //    TransactionDescription = transdesc.Transaction.TransactionDescription,
+            //    Transactions  = transdesc.Transaction.Transaction
+            //});
+
+
+
+
+
+
+
+
 
             var transaction = await _context.Transaction
                 .SingleOrDefaultAsync(m => m.ID == id);

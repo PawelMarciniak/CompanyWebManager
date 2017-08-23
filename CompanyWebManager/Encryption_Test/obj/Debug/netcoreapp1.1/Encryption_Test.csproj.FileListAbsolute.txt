@@ -1,11 +1,11 @@
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\Encryption_Test.deps.json
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\Encryption_Test.runtimeconfig.json
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\Encryption_Test.runtimeconfig.dev.json
-C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.csprojResolveAssemblyReference.cache
-C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.AssemblyInfo.cs
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\Encryption_Test.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\Encryption_Test.pdb
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\CompanyWebManager.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\bin\Debug\netcoreapp1.1\CompanyWebManager.pdb
+C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.csprojResolveAssemblyReference.cache
+C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.AssemblyInfo.cs
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Encryption_Test\obj\Debug\netcoreapp1.1\Encryption_Test.pdb

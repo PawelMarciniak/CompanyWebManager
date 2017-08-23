@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,8 +11,10 @@ namespace CompanyWebManager.Models
     {
         public int ID { get; set; }
 
+        //[ForeignKey("TransactionDescriptions")]
         public int TransactionDescriptionID { get; set; }
 
+        //[ForeignKey("Products")]
         [Display(Name = "Produkt")]
         public int ProductID { get; set; }
 
@@ -30,6 +33,12 @@ namespace CompanyWebManager.Models
         [Display(Name = "Kwota Brutto")]
         public decimal GrossPrice { get; set; }
 
-        public List<Product> Products { get; set; }
+        //public List<Product> Products { get; set; }
+
+        //[Display(Name = "Nazwa")]
+        //public string Name { get; set; }
+
+        //[Display(Name = "Opis")]
+        //public string Description { get; set; }
     }
 }

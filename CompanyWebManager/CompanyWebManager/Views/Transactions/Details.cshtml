@@ -1,55 +1,105 @@
-@model CompanyWebManager.Models.Transaction
+@model CompanyWebManager.Models.ViewModels.ProductsOfTransaction
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegoly";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Szczegoly</h2>
 
 <div>
-    <h4>Transaction</h4>
+    <h4>Transakcja</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TransactionID)
+            @Html.DisplayNameFor(model => model.TransactionDescription.ID)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.TransactionID)
+            @Html.DisplayFor(model => model.TransactionDescription.ID)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Type)
+            @Html.DisplayNameFor(model => model.TransactionDescription.Type)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.TransactionDescription.TypeDesc)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ProductID)
+            @Html.DisplayNameFor(model => model.TransactionDescription.Description)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ProductID)
+            @Html.DisplayFor(model => model.TransactionDescription.Description)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ProductNetPrice)
+            @Html.DisplayNameFor(model => model.TransactionDescription.Date)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ProductNetPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductGrossPrice)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProductGrossPrice)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Date)
+            @Html.DisplayFor(model => model.TransactionDescription.Date)
         </dd>
     </dl>
 </div>
+
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Product.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions[0].ProductUnits)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions[0].UnitNetPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions[0].UnitGrossPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions[0].NetPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Transactions[0].GrossPrice)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Transactions) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ID)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.Description)*@
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductUnits)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitNetPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UnitGrossPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NetPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrossPrice)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

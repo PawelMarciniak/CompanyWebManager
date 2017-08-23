@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170823175356_SetDefaultDateValueTransDesc")]
+    partial class SetDefaultDateValueTransDesc
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -229,7 +230,11 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<int>("Quantity");
 
+                    b.Property<int?>("TransactionID");
+
                     b.HasKey("ID");
+
+                    b.HasIndex("TransactionID");
 
                     b.ToTable("Products");
                 });
@@ -405,6 +410,13 @@ namespace CompanyWebManager.Migrations
                     b.HasOne("CompanyWebManager.Models.ApplicationUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
+                });
+
+            modelBuilder.Entity("CompanyWebManager.Models.Product", b =>
+                {
+                    b.HasOne("CompanyWebManager.Models.Transaction")
+                        .WithMany("Products")
+                        .HasForeignKey("TransactionID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
