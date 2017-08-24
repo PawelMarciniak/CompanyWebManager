@@ -37,6 +37,9 @@
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="1.0.1" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\Views\" />
+  </ItemGroup>
   <PropertyGroup>
     <UserSecretsId>My-USER-SECRET-ID-HERE-c23d27a4-eb88</UserSecretsId>
   </PropertyGroup>

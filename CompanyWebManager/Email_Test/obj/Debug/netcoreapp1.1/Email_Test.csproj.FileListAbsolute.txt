@@ -1,11 +1,11 @@
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\Email_Test.deps.json
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\Email_Test.runtimeconfig.json
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\Email_Test.runtimeconfig.dev.json
+C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\obj\Debug\netcoreapp1.1\Email_Test.AssemblyInfo.cs
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\Email_Test.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\Email_Test.pdb
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\CompanyWebManager.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\bin\Debug\netcoreapp1.1\CompanyWebManager.pdb
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\obj\Debug\netcoreapp1.1\Email_Test.csprojResolveAssemblyReference.cache
-C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\obj\Debug\netcoreapp1.1\Email_Test.AssemblyInfo.cs
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\obj\Debug\netcoreapp1.1\Email_Test.dll
 C:\Users\Paweł\Documents\Visual Studio 2017\Projects\CompanyWebManager\CompanyWebManager\Email_Test\obj\Debug\netcoreapp1.1\Email_Test.pdb

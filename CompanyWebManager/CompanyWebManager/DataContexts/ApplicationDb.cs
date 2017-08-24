@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.ViewModels;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CompanyWebManager.DataContexts
@@ -62,6 +63,7 @@ namespace CompanyWebManager.DataContexts
         public DbSet<Product> Product { get; set; }
         public DbSet<Transaction> Transaction { get; set; }
         public DbSet<TransactionDescription> TransactionDescription { get; set; }
+        public DbSet<ProductsOfTransactions> ProductsOfTransactions { get; set; }
 
     }
 }

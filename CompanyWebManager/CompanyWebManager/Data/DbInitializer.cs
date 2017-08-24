@@ -16,7 +16,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Voivodeships.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Voivodeships', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Voivodeships', RESEED, 0)");
 
                 var voivodeships = new Voivodeship[]
                 {
@@ -48,7 +48,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Countries.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Countries', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Countries', RESEED, 0)");
 
                 var countries = new Country[]
                 {
@@ -309,7 +309,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Owners.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 0)");
                 var owners = new Owner[]
                 {
                     new Owner {FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now},
@@ -326,7 +326,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Companies.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Companies', RESEED, 0)");
                 var companies = new Company[]
                 {
                     new Company
@@ -364,7 +364,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Emails.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Emails', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Emails', RESEED, 0)");
                 var emails = new Email[]
                 {
                     new Email
@@ -469,7 +469,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Employee.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Employees', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Employees', RESEED, 0)");
                 var employees = new Employee[]
                 {
                     new Employee
@@ -495,7 +495,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Product.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Products', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Products', RESEED, 0)");
                 var products = new Product[]
                 {
                     new Product
@@ -609,7 +609,7 @@ namespace CompanyWebManager.Data
 
             if (!context.TransactionDescription.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('TransactionDescriptions', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('TransactionDescriptions', RESEED, 0)");
 
                 var transactionDescriptions = new TransactionDescription[]
                 {
@@ -631,7 +631,7 @@ namespace CompanyWebManager.Data
 
             if (!context.Transaction.Any())
             {
-                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Transactions', RESEED, 1)");
+                context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Transactions', RESEED, 0)");
 
                 var transactions = new Transaction[]
                 {

@@ -51,48 +51,45 @@ namespace CompanyWebManager.Controllers
             //    where sa.LocationId == 1
             //    select s
 
-            var productsOfTransactions = (from t in _context.Transaction
-                join p in _context.Product on t.ProductID equals p.ID
-                where t.TransactionDescriptionID == id
-                select t);
+            //var productsOfTransactions = (from t in _context.Transaction
+            //    join p in _context.Product on t.ProductID equals p.ID
+            //    where t.TransactionDescriptionID == id
+            //    select t);
 
 
-            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID,
-            //    (p, pr) => new { Transaction = p, Product = pr });
+            var productsOfTransactions =
+                _context.ProductsOfTransactions.Where(t => t.TransactionDescriptionID == id);
 
-            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID)
-            //    .Where(tr => tr.);
+           //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID,
+           //   (p, pr) => new { Transaction = p, Product = pr });
 
-
-
-            //_context.TransactionDescription
-            //.Join(_context.Transaction, td => td.ID, t => t.TransactionDescriptionID,
-            //    (td, t) => new {TransactionDescription = td, Transaction = t})
-            //.Join(_context.Product, p => p.Transaction.ProductID, pr => pr.ID,
-            //    (p, pr) => new {Transaction = p, Product = pr})
-            //.Where(transdesc => transdesc.Transaction.TransactionDescription.ID == id)
-            //.SelectMany(transdesc => new ProductsOfTransaction
-            //{
-            //    TransactionDescription = transdesc.Transaction.TransactionDescription,
-            //    Transactions  = transdesc.Transaction.Transaction
-            //});
+           //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID)
+           //    .Where(tr => tr.);
 
 
 
+           //_context.TransactionDescription
+           //.Join(_context.Transaction, td => td.ID, t => t.TransactionDescriptionID,
+           //    (td, t) => new {TransactionDescription = td, Transaction = t})
+           //.Join(_context.Product, p => p.Transaction.ProductID, pr => pr.ID,
+           //    (p, pr) => new {Transaction = p, Product = pr})
+           //.Where(transdesc => transdesc.Transaction.TransactionDescription.ID == id)
+           //.SelectMany(transdesc => new ProductsOfTransaction
+           //{
+           //    TransactionDescription = transdesc.Transaction.TransactionDescription,
+           //    Transactions  = transdesc.Transaction.Transaction
+           //});
+           
 
 
+           //var transaction = await _context.Transaction
+           //     .SingleOrDefaultAsync(m => m.ID == id);
+           // if (transaction == null)
+           // {
+           //     return NotFound();
+           // }
 
-
-
-
-            var transaction = await _context.Transaction
-                .SingleOrDefaultAsync(m => m.ID == id);
-            if (transaction == null)
-            {
-                return NotFound();
-            }
-
-            return View(transaction);
+            return View();
         }
 
         // GET: Transactions/Create
