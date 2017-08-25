@@ -338,7 +338,7 @@ namespace CompanyWebManager.Data
                         PostalCode = "85-333",
                         Voivodeship = 1,
                         Country = 1,
-                        OwnerID = 1
+                        ownerID = 1
                     },
                     new Company
                     {
@@ -349,7 +349,7 @@ namespace CompanyWebManager.Data
                         PostalCode = "22-333",
                         Voivodeship = 5,
                         Country = 177,
-                        OwnerID = 2
+                        ownerID = 2
                     }
 
                 };
