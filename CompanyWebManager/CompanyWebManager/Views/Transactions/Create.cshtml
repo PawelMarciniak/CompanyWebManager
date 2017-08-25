@@ -14,16 +14,9 @@
     <div class="form-horizontal">
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        @*<div class="form-group">
-            <label asp-for="TransactionID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="TransactionID" class="form-control" />
-                <span asp-validation-for="TransactionID" class="text-danger"></span>
-            </div>
-        </div>*@
         <div class="form-group">
-            <label class="col-md-2 control-label"></label>
             <div class="col-md-10">
+                <span class="">Typ</span>
                 @{
                     var selectList = new SelectList(
                         new List<SelectListItem>
@@ -32,15 +25,12 @@
                             new SelectListItem {Text = "Rozchod", Value = "2"},
                         }, "Value", "Text");
                 }
-                @Html.DropDownList("Type", selectList, "Wybierz", new { @class = "form-control", id = "type" })
-                @*<input asp-for="Type" class="form-control" />
-                <span asp-validation-for="Type" class="text-danger"></span>*@
+                @Html.DropDownList("Type", selectList, "Wybierz", new {@class = "form-control", id = "type"})
             </div>
         </div>
         <div class="form-group">
-            <label class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <span class="text-danger"></span>
+                <span class="">Opis</span>
                 <textarea id="descripion" class="form-control" rows="5"></textarea>
             </div>
         </div>

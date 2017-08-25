@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
+using CompanyWebManager.Models.Views;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CompanyWebManager.DataContexts

@@ -27,7 +27,6 @@ namespace CompanyWebManager.Controllers
         public async Task<IActionResult> Index()
         {
             return RedirectToAction("ReceiveEmails");
-            // return View(await _context.Emails.ToListAsync());
         }
         
         // GET: Emails/Create
@@ -99,12 +98,14 @@ namespace CompanyWebManager.Controllers
             List<Email> newEmails = await es.ReceiveEmails(login, pass);
             HttpContext.Session.SetObjectAsJson("ReceivedEmails", newEmails);
            // SessionContext["ReceivedEmails"] = newEmails;
-            List<Email> emails = await _context.Emails.ToListAsync();
+            List<Email> emails = await _context.Emails.
+                                                Where(s => s.OwnerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"))
+                                                .ToListAsync();
 
 
-            List<Email> emailsTmp = HttpContext.Session.GetObjectFromJson<List<Email>>("ReceivedEmails");
+            //List<Email> emailsTmp = HttpContext.Session.GetObjectFromJson<List<Email>>("ReceivedEmails");
 
-            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", 0);
+            //Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", 0);
 
             emails.AddRange(newEmails);
 

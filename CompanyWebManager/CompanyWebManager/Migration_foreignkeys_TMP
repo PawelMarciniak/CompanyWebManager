@@ -1,0 +1,98 @@
+
+samo sie zrobilo, nie wiadomo czy dobre
+
+
+
+
+
+
+
+
+
+
+
+using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
+
+namespace CompanyWebManager.Migrations
+{
+    public partial class foreignkeys2 : Migration
+    {
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Owners_Users_UserId",
+                table: "Owners");
+
+            migrationBuilder.RenameColumn(
+                name: "UserId",
+                table: "Owners",
+                newName: "UserID");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Owners_UserId",
+                table: "Owners",
+                newName: "IX_Owners_UserID");
+
+            migrationBuilder.CreateTable(
+                name: "ProductsOfTransactions",
+                columns: table => new
+                {
+                    TransactionID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    GrossPrice = table.Column<decimal>(nullable: false),
+                    NetPrice = table.Column<decimal>(nullable: false),
+                    ProductName = table.Column<string>(nullable: true),
+                    ProductUnits = table.Column<int>(nullable: false),
+                    TransDescDate = table.Column<DateTime>(nullable: false),
+                    TransDescDesc = table.Column<string>(nullable: true),
+                    TransactionDescriptionID = table.Column<int>(nullable: false),
+                    Type = table.Column<int>(nullable: false),
+                    UnitGrossPrice = table.Column<decimal>(nullable: false),
+                    UnitNetPrice = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductsOfTransactions", x => x.TransactionID);
+                });
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Owners_Users_UserID",
+                table: "Owners",
+                column: "UserID",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+        }
+
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropForeignKey(
+                name: "FK_Owners_Users_UserID",
+                table: "Owners");
+
+            migrationBuilder.DropTable(
+                name: "ProductsOfTransactions");
+
+            migrationBuilder.RenameColumn(
+                name: "UserID",
+                table: "Owners",
+                newName: "UserId");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_Owners_UserID",
+                table: "Owners",
+                newName: "IX_Owners_UserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Owners_Users_UserId",
+                table: "Owners",
+                column: "UserId",
+                principalTable: "Users",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Restrict);
+        }
+    }
+}

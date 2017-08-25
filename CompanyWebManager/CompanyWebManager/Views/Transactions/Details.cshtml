@@ -1,8 +1,10 @@
-@model CompanyWebManager.Models.ViewModels.ProductsOfTransactions
+@model CompanyWebManager.Models.ViewModels.ProductsOfTransactionsListViewModel
 
 @{
     ViewData["Title"] = "Szczegoly";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    decimal grossPrice = 0.00M;
+    decimal netPrice = 0.00M;
 }
 
 <h2>Szczegoly</h2>
@@ -12,16 +14,28 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.TransactionDescriptionID)
+            @Html.DisplayNameFor(model => model.Headres.TransactionDescriptionID)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.TransDescDesc)
+            @Html.DisplayFor(model => model.ProductsOfTransactions[0].TransactionID)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.TransDescDate)
+            @Html.DisplayNameFor(model => model.Headres.TransDescDesc)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Type)
+            @Html.DisplayFor(model => model.ProductsOfTransactions[0].TransDescDesc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Headres.TransDescDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductsOfTransactions[0].TransDescDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Headres.Type)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Headres.TypeDesc)
         </dd>
     </dl>
 </div>
@@ -31,28 +45,28 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ProductName)
+            @Html.DisplayNameFor(model => model.Headres.ProductName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ProductUnits)
+            @Html.DisplayNameFor(model => model.Headres.ProductUnits)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UnitNetPrice)
+            @Html.DisplayNameFor(model => model.Headres.UnitNetPrice)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UnitGrossPrice)
+            @Html.DisplayNameFor(model => model.Headres.UnitGrossPrice)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.NetPrice)
+            @Html.DisplayNameFor(model => model.Headres.NetPrice)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.GrossPrice)
+            @Html.DisplayNameFor(model => model.Headres.GrossPrice)
         </th>
-        <th></th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.Transactions) {
+    @foreach (var item in Model.ProductsOfTransactions)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
@@ -72,16 +86,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.GrossPrice)
             </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
         </tr>
+        grossPrice += @item.GrossPrice;
+        netPrice += @item.NetPrice;
     }
     </tbody>
 </table>
+<div style="float: right; font-size: 25px">
+    <span style="display:block">Calosc brutto @(grossPrice)</span> 
+    <span style="display:block">Calosc netto @(netPrice)</span> 
+</div>
 
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Powrot do list transakcji</a>
 </div>

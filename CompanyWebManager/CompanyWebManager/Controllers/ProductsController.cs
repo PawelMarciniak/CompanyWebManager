@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
+using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 
 namespace CompanyWebManager.Controllers
@@ -22,7 +23,14 @@ namespace CompanyWebManager.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Product.ToListAsync());
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+
+            if (isAuthenticated)
+            {
+                return View(await _context.Product.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID")).ToListAsync());
+            }
+            return RedirectToAction("Login", "Account", new { area = "" });
+           
         }
 
         // GET: Products/Details/5

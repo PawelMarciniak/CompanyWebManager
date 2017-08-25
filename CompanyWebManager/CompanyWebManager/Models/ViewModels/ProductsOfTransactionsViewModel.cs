@@ -9,7 +9,7 @@ using CompanyWebManager.Extensions;
 
 namespace CompanyWebManager.Models.ViewModels
 {
-    public class ProductsOfTransactions
+    public class ProductsOfTransactionsViewModel
     {
         [Display(Name = "ID Transakcji")]
         public int TransactionDescriptionID { get; set; }
@@ -26,7 +26,7 @@ namespace CompanyWebManager.Models.ViewModels
         [NotMapped]
         public string TypeDesc => Type == 1 ? TransactionType.Revenue.Description() : TransactionType.Expense.Description();
 
-        public int ID { get; set; }
+        public int TransactionID { get; set; }
 
         [Display(Name = "Cena Netto za szt")]
         public decimal UnitNetPrice { get; set; }
@@ -43,13 +43,13 @@ namespace CompanyWebManager.Models.ViewModels
         [Display(Name = "Kwota Brutto")]
         public decimal GrossPrice { get; set; }
 
-        [Display(Name = "Produkt")]
-        public int ProductID { get; set; }
+       // [Display(Name = "Produkt")]
+        //public int ProductID { get; set; }
 
         [Display(Name = "Nazwa produktu")]
         public string ProductName { get; set; }
 
-        public List<ProductsOfTransactions> Transactions { get; set; }
+       // public List<ProductsOfTransactionsViewModel> Transactions { get; set; }
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using CompanyWebManager.DataContexts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Options;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.AccountViewModels;
 using CompanyWebManager.Services;
+using CompanyWebManager.Helpers;
 
 namespace CompanyWebManager.Controllers
 {
@@ -24,6 +26,7 @@ namespace CompanyWebManager.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
+        private readonly ApplicationDb _context;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
@@ -31,7 +34,8 @@ namespace CompanyWebManager.Controllers
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory,
+            ApplicationDb context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +43,7 @@ namespace CompanyWebManager.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+            _context = context;
         }
 
         //
@@ -114,6 +119,11 @@ namespace CompanyWebManager.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                var id = user.Id;
+                int newOwnerID = CreateOwner(id, model);
+                HttpContext.Session.SetObjectAsJson("ownerID", newOwnerID);
+
                 if (result.Succeeded)
                 {
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
@@ -124,6 +134,7 @@ namespace CompanyWebManager.Controllers
                     //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User created a new account with password.");
+
                     return RedirectToLocal(returnUrl);
                 }
                 AddErrors(result);
@@ -471,6 +482,21 @@ namespace CompanyWebManager.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+        private int CreateOwner(string userID, RegisterViewModel model)
+        {
+            Owner owner = new Owner();
+
+            owner.FirstName = model.FirstName;
+            owner.LastName = model.LastName;
+            owner.Created = DateTime.Now;
+            owner.UserId = userID;
+
+            _context.Add(owner);
+            _context.SaveChanges();
+
+            return owner.ID;
         }
 
         #endregion

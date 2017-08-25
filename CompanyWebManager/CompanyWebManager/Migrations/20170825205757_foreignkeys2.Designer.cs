@@ -8,9 +8,10 @@ using CompanyWebManager.DataContexts;
 namespace CompanyWebManager.Migrations
 {
     [DbContext(typeof(ApplicationDb))]
-    partial class ApplicationDbModelSnapshot : ModelSnapshot
+    [Migration("20170825205757_foreignkeys2")]
+    partial class foreignkeys2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -74,8 +75,6 @@ namespace CompanyWebManager.Migrations
                     b.Property<string>("Town");
 
                     b.Property<int?>("Voivodeship");
-
-                    b.Property<int>("ownerID");
 
                     b.HasKey("ID");
 
@@ -185,8 +184,6 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<int?>("Voivodeship");
 
-                    b.Property<int>("ownerID");
-
                     b.HasKey("ID");
 
                     b.ToTable("Employees");
@@ -205,13 +202,13 @@ namespace CompanyWebManager.Migrations
 
                     b.Property<string>("OwnerEmail");
 
-                    b.Property<string>("UserId");
+                    b.Property<string>("UserID");
 
                     b.Property<string>("UserName");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserID");
 
                     b.ToTable("Owners");
                 });
@@ -232,8 +229,6 @@ namespace CompanyWebManager.Migrations
                     b.Property<decimal>("NetPrice");
 
                     b.Property<int>("Quantity");
-
-                    b.Property<int>("ownerID");
 
                     b.HasKey("ID");
 
@@ -258,8 +253,6 @@ namespace CompanyWebManager.Migrations
                     b.Property<decimal>("UnitGrossPrice");
 
                     b.Property<decimal>("UnitNetPrice");
-
-                    b.Property<int>("ownerID");
 
                     b.HasKey("ID");
 
@@ -306,8 +299,6 @@ namespace CompanyWebManager.Migrations
                     b.Property<decimal>("UnitGrossPrice");
 
                     b.Property<decimal>("UnitNetPrice");
-
-                    b.Property<int>("ownerID");
 
                     b.HasKey("TransactionID");
 
@@ -444,7 +435,7 @@ namespace CompanyWebManager.Migrations
                 {
                     b.HasOne("CompanyWebManager.Models.ApplicationUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

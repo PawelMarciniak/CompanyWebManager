@@ -22,6 +22,8 @@ namespace CompanyWebManager.Models
 
         public string UserName { get; set; }
 
+        public string UserId { get; set; }
+
         public ApplicationUser User { get; set; }
 
         public ICollection<Email> Emails { get; set; }

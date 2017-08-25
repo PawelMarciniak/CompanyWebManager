@@ -14,41 +14,15 @@ namespace CompanyWebManager.Controllers
     public class HomeController : Controller
     {
 
-        public IActionResult Index()
+        public IActionResult Index( string action)
         {
-            bool isAuthenticated = User.Identity.IsAuthenticated;
-
-
-            //EmailSender email = new EmailSender();
-            //List<string> receivers = new List<string>();
-            //receivers.Add("pawel.marciniak92@gmail.com");
-            //receivers.Add("pawel_m_92@wp.pl");
-
-            //new Task(() =>
-            //{
-            //    email.SendEmails("webcompanymanager2017@gmail.com", receivers, "test", "dupa", "test", "test");
-            //}).Start();
-            
+            bool isAuthenticated = User.Identity.IsAuthenticated;            
 
             if (isAuthenticated)
             {
                 return RedirectToAction("Index", "Emails", new { area = "" });
             }
             return RedirectToAction("Login", "Account", new { area = "" });
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
         }
 
         public IActionResult Error()

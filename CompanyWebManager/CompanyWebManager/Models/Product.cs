@@ -34,6 +34,8 @@ namespace CompanyWebManager.Models
 
         public int CompanyID { get; set; }
 
+        public int ownerID { get; set; }
+
 
         #endregion
     }

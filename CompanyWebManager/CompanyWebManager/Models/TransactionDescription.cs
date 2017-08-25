@@ -22,6 +22,8 @@ namespace CompanyWebManager.Models
         [Display(Name = "Data")]
         public DateTime Date { get; set; }
 
+        public int ownerID { get; set; }
+
         [NotMapped]
         public string TypeDesc => Type == 1 ? TransactionType.Revenue.Description() : TransactionType.Expense.Description();
     }

@@ -54,6 +54,8 @@ namespace CompanyWebManager.Models
         [Display(Name = "Kraj")]
         public string CountryName { get; set; }
 
+        public int ownerID { get; set; }
+
 
         #endregion
     }

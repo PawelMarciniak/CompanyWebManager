@@ -44,8 +44,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="btn btn-success" asp-action="Details" asp-route-id="@item.ID">Szczegoly transakcji</a> 
             </td>
         </tr>
 }

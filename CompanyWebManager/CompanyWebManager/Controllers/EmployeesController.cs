@@ -22,8 +22,15 @@ namespace CompanyWebManager.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var applicationDb = _context.Employee;
-            return View(await applicationDb.ToListAsync());
+            bool isAuthenticated = User.Identity.IsAuthenticated;
+
+            if (isAuthenticated)
+            {
+                var applicationDb = _context.Employee;
+                return View(await applicationDb.ToListAsync());
+            }
+            return RedirectToAction("Login", "Account", new { area = "" });
+            
         }
 
         // GET: Employees/Details/5

@@ -481,7 +481,9 @@ namespace CompanyWebManager.Data
                         Town = "new york",
                         PostalCode = "",
                         Voivodeship = 4,
-                        Country = 230
+                        Country = 230,
+                        ownerID =  1
+                        
                     }
                 };
 
@@ -505,7 +507,8 @@ namespace CompanyWebManager.Data
                         Description = "bardzo fajna karta graficzna",
                         GrossPrice = 184.50M,
                         NetPrice = 150.00M,
-                        Quantity = 20
+                        Quantity = 20,
+                        ownerID =  1
                     },
 
                     new Product
@@ -515,7 +518,8 @@ namespace CompanyWebManager.Data
                         Description = "fajna karta graficzna",
                         GrossPrice = 246.00M,
                         NetPrice = 200.00M,
-                        Quantity = 15
+                        Quantity = 15,
+                        ownerID =  1
                     },
 
                     new Product
@@ -525,7 +529,8 @@ namespace CompanyWebManager.Data
                         Description = "srednia karta graficzna",
                         GrossPrice = 123.00M,
                         NetPrice = 100.00M,
-                        Quantity = 10
+                        Quantity = 10,
+                        ownerID =  1
                     },
 
                     new Product
@@ -535,7 +540,8 @@ namespace CompanyWebManager.Data
                         Description = "bardzo fajna klawiatura logitech",
                         GrossPrice = 55.35M,
                         NetPrice = 45.00M,
-                        Quantity = 25
+                        Quantity = 25,
+                        ownerID =  1
                     },
 
                     new Product
@@ -545,7 +551,8 @@ namespace CompanyWebManager.Data
                         Description = "klawiatura do jablek",
                         GrossPrice = 307.50M,
                         NetPrice = 250.00M,
-                        Quantity = 5
+                        Quantity = 5,
+                        ownerID =  1
                     },
 
                     new Product
@@ -555,7 +562,8 @@ namespace CompanyWebManager.Data
                         Description = "najnowszy router od asusa",
                         GrossPrice = 73.80M,
                         NetPrice = 60.00M,
-                        Quantity = 12
+                        Quantity = 12,
+                        ownerID =  1
                     },
 
                     new Product
@@ -565,7 +573,8 @@ namespace CompanyWebManager.Data
                         Description = "tp-link router",
                         GrossPrice = 36.90M,
                         NetPrice = 30.00M,
-                        Quantity = 10
+                        Quantity = 10,
+                        ownerID =  1
                     },
 
                     new Product
@@ -575,7 +584,8 @@ namespace CompanyWebManager.Data
                         Description = "bezprzewodowa mysz dla graczy",
                         GrossPrice = 98.40M,
                         NetPrice = 80.00M,
-                        Quantity = 20
+                        Quantity = 20,
+                        ownerID =  1
                     },
 
                     new Product
@@ -585,7 +595,8 @@ namespace CompanyWebManager.Data
                         Description = "designerska mysz od logitecha",
                         GrossPrice = 110.70M,
                         NetPrice = 90.00M,
-                        Quantity = 8
+                        Quantity = 8,
+                        ownerID =  1
                     },
 
                     new Product
@@ -595,7 +606,8 @@ namespace CompanyWebManager.Data
                         Description = "srodek do czyszcenia komputerow stacjonarnych, laptopow, klawiatur i innych sprzetow",
                         GrossPrice = 18.45M,
                         NetPrice = 15.00M,
-                        Quantity = 45
+                        Quantity = 45,
+                        ownerID =  1
                     }
                 };
 
@@ -617,7 +629,8 @@ namespace CompanyWebManager.Data
                     {
                         Type = 2,
                         Description = "Sprzedaz 1",
-                        Date = DateTime.Now
+                        Date = DateTime.Now,
+                        ownerID =  1
                     }
                 };
 

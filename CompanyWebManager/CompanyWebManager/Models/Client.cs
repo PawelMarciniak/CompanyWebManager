@@ -42,5 +42,7 @@ namespace CompanyWebManager.Models
         [NotMapped]
         [Display(Name = "Kraj")]
         public int? CountryName { get; set; }
+
+        public int ownerID { get; set; }
     }
 }
