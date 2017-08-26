@@ -4,18 +4,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace CompanyWebManager.Helpers
 {
     public class TransactionHelper
     {
-        public void SaveTransaction(TransactionData transactionData, ApplicationDb context)
+        public void SaveTransaction(TransactionData transactionData, ApplicationDb context, int ownerID)
         {
             TransactionDescription transDesc = new TransactionDescription();
 
             transDesc.Type = transactionData.Type;
             transDesc.Description = transactionData.Description;
             transDesc.Date = DateTime.Now;
+            transDesc.ownerID = ownerID;
 
             context.Add(transDesc);
             context.SaveChanges();

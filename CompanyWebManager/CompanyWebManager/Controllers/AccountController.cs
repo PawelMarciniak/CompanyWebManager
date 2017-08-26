@@ -74,6 +74,8 @@ namespace CompanyWebManager.Controllers
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var ownerID = _context.Owners.Where(o => o.OwnerEmail == model.Email).Select(o => o.ID).First();
+                    HttpContext.Session.SetObjectAsJson("ownerID", ownerID);
                     _logger.LogInformation(1, "User logged in.");
                     return RedirectToLocal(returnUrl);
                 }
@@ -491,6 +493,7 @@ namespace CompanyWebManager.Controllers
             owner.FirstName = model.FirstName;
             owner.LastName = model.LastName;
             owner.Created = DateTime.Now;
+            owner.OwnerEmail = model.Email;
             owner.UserId = userID;
 
             _context.Add(owner);

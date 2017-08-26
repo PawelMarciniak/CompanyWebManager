@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.ViewModels;
 
 namespace CompanyWebManager.Controllers
 {
@@ -20,7 +21,6 @@ namespace CompanyWebManager.Controllers
             _context = context;    
         }
 
-        // GET: Clients
         public async Task<IActionResult> Index()
         {
 
@@ -28,13 +28,30 @@ namespace CompanyWebManager.Controllers
 
             if (isAuthenticated)
             {
-                return View(await _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID")).ToListAsync());
+                ClientsListViewModel vModel = new ClientsListViewModel();
+                var clients = _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
+
+                vModel.Clients = clients.Select(s => new ClientsViewModel()
+                {
+                    ID = s.ID,
+                    FirstName = s.FirstName,
+                    LastName = s.LastName,
+                    ClientEmail = s.ClientEmail,
+                    Street = s.Street,
+                    Town = s.Town, 
+                    PostalCode = s.PostalCode,
+                    VoivodeshipName = _context.Voivodeships.Where(v => v.ID == s.Voivodeship).Select( v => v.Name).First(),
+                    CountryName = _context.Countries.Where(v => v.ID == s.Country).Select(v => v.Name).First(),
+                    ownerID = s.ownerID
+                }).ToList();
+
+               // var clientsContext = _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
+                return View(vModel);
             }
             return RedirectToAction("Login", "Account", new { area = "" });
 
         }
 
-        // GET: Clients/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -52,21 +69,29 @@ namespace CompanyWebManager.Controllers
             return View(client);
         }
 
-        // GET: Clients/Create
         public IActionResult Create()
         {
+            List<Voivodeship> voivodeships = new List<Voivodeship>();
+
+            voivodeships = _context.Voivodeships.ToList();
+            voivodeships.Insert(0, new Voivodeship { ID = 0, Name = "Select" });
+            ViewBag.Voivodeships = voivodeships;
+
+            List<Country> countries = new List<Country>();
+
+            countries = _context.Countries.ToList();
+            countries.Insert(0, new Country { ID = 0, Name = "Select" });
+            ViewBag.Countries = countries;
             return View();
         }
 
-        // POST: Clients/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country,ownerID")] Client client)
         {
             if (ModelState.IsValid)
             {
+                client.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
                 _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -74,7 +99,6 @@ namespace CompanyWebManager.Controllers
             return View(client);
         }
 
-        // GET: Clients/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -90,9 +114,6 @@ namespace CompanyWebManager.Controllers
             return View(client);
         }
 
-        // POST: Clients/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country,ownerID")] Client client)
@@ -125,7 +146,6 @@ namespace CompanyWebManager.Controllers
             return View(client);
         }
 
-        // GET: Clients/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -143,7 +163,6 @@ namespace CompanyWebManager.Controllers
             return View(client);
         }
 
-        // POST: Clients/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

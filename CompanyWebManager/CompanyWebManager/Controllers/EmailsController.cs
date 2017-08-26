@@ -23,13 +23,11 @@ namespace CompanyWebManager.Controllers
             _context = context;    
         }
 
-        // GET: Emails
         public async Task<IActionResult> Index()
         {
             return RedirectToAction("ReceiveEmails");
         }
         
-        // GET: Emails/Create
         public IActionResult Create()
         {
             return View();
@@ -39,7 +37,7 @@ namespace CompanyWebManager.Controllers
         public async Task<IActionResult> SaveEmail(int id)
         {
             Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
-            msg.OwnerID = 1;
+            msg.OwnerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
             msg.Saved = true;
             _context.Add(msg);
             await _context.SaveChangesAsync();
@@ -97,15 +95,9 @@ namespace CompanyWebManager.Controllers
             
             List<Email> newEmails = await es.ReceiveEmails(login, pass);
             HttpContext.Session.SetObjectAsJson("ReceivedEmails", newEmails);
-           // SessionContext["ReceivedEmails"] = newEmails;
             List<Email> emails = await _context.Emails.
-                                                Where(s => s.OwnerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"))
-                                                .ToListAsync();
-
-
-            //List<Email> emailsTmp = HttpContext.Session.GetObjectFromJson<List<Email>>("ReceivedEmails");
-
-            //Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", 0);
+                                    Where(s => s.OwnerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"))
+                                    .ToListAsync();
 
             emails.AddRange(newEmails);
 

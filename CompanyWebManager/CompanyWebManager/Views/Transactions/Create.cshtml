@@ -63,7 +63,7 @@
             <td class="col-md-2">
                 <div class="ui-widget">
                     <input asp-for="ProductID" type="hidden" class="form-control productID"/>
-                    <input type="text" data-request-url="Search" class="form-control product"/>
+                    <input type="text" data-request-url="SearchProducts" class="form-control product"/>
                 </div>
             </td>
             <td class="col-md-2">
@@ -79,7 +79,7 @@
                 <input asp-for="GrossPrice" class="form-control grossPrice" disabled="disabled" />
             </td>
             <td class="col-md-2">
-                <input asp-for="ProductUnits" class="form-control units" onchange="calculatePrices($(this))" />
+                <input asp-for="ProductUnits" data-request-url="CheckAvaiability" class="form-control units" />
             </td>
         </tr>
         </tbody>

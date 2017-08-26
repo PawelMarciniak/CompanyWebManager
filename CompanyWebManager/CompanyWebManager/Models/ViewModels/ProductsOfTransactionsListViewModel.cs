@@ -8,12 +8,12 @@ namespace CompanyWebManager.Models.ViewModels
     public class ProductsOfTransactionsListViewModel
     {
         public List<ProductsOfTransactionsViewModel> ProductsOfTransactions { get; set; }
-        public ProductsOfTransactionsViewModel Headres { get; set; }
+        public ProductsOfTransactionsViewModel Headers { get; set; }
 
         public ProductsOfTransactionsListViewModel()
         {
             ProductsOfTransactions = new List<ProductsOfTransactionsViewModel>();
-            Headres = new ProductsOfTransactionsViewModel();
+            Headers = new ProductsOfTransactionsViewModel();
         }
     }
 }

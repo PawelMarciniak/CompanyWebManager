@@ -1,4 +1,4 @@
-@model IEnumerable<CompanyWebManager.Models.Client>
+@model CompanyWebManager.Models.ViewModels.ClientsListViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -14,37 +14,34 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.Headers.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    @Html.DisplayNameFor(model => model.Headers.LastName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.ClientEmail)
+                    @Html.DisplayNameFor(model => model.Headers.ClientEmail)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Street)
+                    @Html.DisplayNameFor(model => model.Headers.Street)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Town)
+                    @Html.DisplayNameFor(model => model.Headers.Town)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PostalCode)
+                    @Html.DisplayNameFor(model => model.Headers.PostalCode)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Voivodeship)
+                    @Html.DisplayNameFor(model => model.Headers.Voivodeship)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Country)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ownerID)
+                    @Html.DisplayNameFor(model => model.Headers.Country)
                 </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Clients) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
@@ -65,13 +62,10 @@
                 @Html.DisplayFor(modelItem => item.PostalCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Voivodeship)
+                @Html.DisplayFor(modelItem => item.VoivodeshipName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Country)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ownerID)
+                @Html.DisplayFor(modelItem => item.CountryName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

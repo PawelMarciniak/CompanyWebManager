@@ -20,7 +20,6 @@ namespace CompanyWebManager.Controllers
             _context = context;    
         }
 
-        // GET: Products
         public async Task<IActionResult> Index()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
@@ -33,7 +32,6 @@ namespace CompanyWebManager.Controllers
            
         }
 
-        // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,21 +49,19 @@ namespace CompanyWebManager.Controllers
             return View(product);
         }
 
-        // GET: Products/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Name,Description,NetPrice,GrossPrice,Quantity")] Product product)
         {
             if (ModelState.IsValid)
             {
+                product.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+                product.GrossPrice = product.NetPrice * 1.23M;
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -73,7 +69,6 @@ namespace CompanyWebManager.Controllers
             return View(product);
         }
 
-        // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -89,9 +84,6 @@ namespace CompanyWebManager.Controllers
             return View(product);
         }
 
-        // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,NetPrice,GrossPrice,Quantity")] Product product)
@@ -124,7 +116,6 @@ namespace CompanyWebManager.Controllers
             return View(product);
         }
 
-        // GET: Products/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,7 +133,6 @@ namespace CompanyWebManager.Controllers
             return View(product);
         }
 
-        // POST: Products/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

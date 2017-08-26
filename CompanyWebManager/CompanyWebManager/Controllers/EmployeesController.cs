@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
+using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 
 namespace CompanyWebManager.Controllers
@@ -19,7 +20,6 @@ namespace CompanyWebManager.Controllers
             _context = context;    
         }
 
-        // GET: Employees
         public async Task<IActionResult> Index()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
@@ -33,7 +33,6 @@ namespace CompanyWebManager.Controllers
             
         }
 
-        // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,7 +50,6 @@ namespace CompanyWebManager.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Create
         public IActionResult Create()
         {
             List<Voivodeship> voivodeships = new List<Voivodeship>();
@@ -68,15 +66,13 @@ namespace CompanyWebManager.Controllers
             return View();
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,PhoneNumber,Position,Salary")] Employee employee)
         {
             if (ModelState.IsValid)
             {
+                employee.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -84,7 +80,6 @@ namespace CompanyWebManager.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,9 +95,6 @@ namespace CompanyWebManager.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,Email,PhoneNumber,Position,Salary,AddressID")] Employee employee)
@@ -135,7 +127,6 @@ namespace CompanyWebManager.Controllers
             return View(employee);
         }
 
-        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -153,7 +144,6 @@ namespace CompanyWebManager.Controllers
             return View(employee);
         }
 
-        // POST: Employees/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

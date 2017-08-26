@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.DataModels;
 using CompanyWebManager.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.Extensions.WebEncoders.Testing;
@@ -24,7 +25,6 @@ namespace CompanyWebManager.Controllers
             _context = context;    
         }
 
-        // GET: Transactions
         public async Task<IActionResult> Index()
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;
@@ -38,15 +38,29 @@ namespace CompanyWebManager.Controllers
 
         [HttpPost]
         [HttpGet]
-        public ActionResult Search(string name)
+        public ActionResult SearchProducts(string name)
         {
-            var routeList = _context.Product.Where(r => r.Name.Contains(name))
+            var products = _context.Product.Where(r => r.Name.Contains(name))
                 .Take(5)
                 .Select(r => new { id = r.ID, label = r.Name, netprice = r.NetPrice, grossprice = r.GrossPrice});
-            return Json(routeList);
+            return Json(products);
         }
 
-        // GET: Transactions/Details/5
+        [HttpPost]
+        [HttpGet]
+        public ActionResult CheckAvaiability([FromBody] ProductMaxAvaiability productInfo)
+        {
+            var quantity = _context.Product.Where(p => p.ID == productInfo.ProductID).Select(p => p.Quantity).First();
+
+            ProductMaxAvaiability maxAvaiability = new ProductMaxAvaiability
+            {
+                Message = quantity >= productInfo.Units ? "available" : "error",
+                MaxAvaiability = quantity
+            };
+
+            return Json(maxAvaiability);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
 
@@ -68,60 +82,9 @@ namespace CompanyWebManager.Controllers
                 UnitNetPrice = s.UnitNetPrice
             }).ToList();
 
-
-
-
-
-
-            //var transDesc = _context.TransactionDescription.SingleOrDefault(t => t.ID == id);
-
-            //from s in db.Services
-            //    join sa in db.ServiceAssignments on s.Id equals sa.ServiceId
-            //    where sa.LocationId == 1
-            //    select s
-
-            //var productsOfTransactions = (from t in _context.Transaction
-            //    join p in _context.Product on t.ProductID equals p.ID
-            //    where t.TransactionDescriptionID == id
-            //    select t);
-
-
-            // var productsOfTransactions =
-            //    _context.ProductsOfTransactions.Where(t => t.TransactionDescriptionID == id);
-
-            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID,
-            //   (p, pr) => new { Transaction = p, Product = pr });
-
-            //var productsOfTransactions = _context.Transaction.Join(_context.Product, p => p.ProductID, pr => pr.ID)
-            //    .Where(tr => tr.);
-
-
-
-            //_context.TransactionDescription
-            //.Join(_context.Transaction, td => td.ID, t => t.TransactionDescriptionID,
-            //    (td, t) => new {TransactionDescription = td, Transaction = t})
-            //.Join(_context.Product, p => p.Transaction.ProductID, pr => pr.ID,
-            //    (p, pr) => new {Transaction = p, Product = pr})
-            //.Where(transdesc => transdesc.Transaction.TransactionDescription.ID == id)
-            //.SelectMany(transdesc => new ProductsOfTransaction
-            //{
-            //    TransactionDescription = transdesc.Transaction.TransactionDescription,
-            //    Transactions  = transdesc.Transaction.Transaction
-            //});
-
-
-
-            //var transaction = await _context.Transaction
-            //     .SingleOrDefaultAsync(m => m.ID == id);
-            // if (transaction == null)
-            // {
-            //     return NotFound();
-            // }
-
             return View(vModel);
         }
 
-        // GET: Transactions/Create
         public IActionResult Create()
         {
             return View();
@@ -136,7 +99,7 @@ namespace CompanyWebManager.Controllers
                 {
                     try
                     {
-                        ts.SaveTransaction(transactionData, _context);
+                        ts.SaveTransaction(transactionData, _context, HttpContext.Session.GetObjectFromJson<int>("ownerID"));
                     }
                     catch 
                     {
@@ -165,7 +128,6 @@ namespace CompanyWebManager.Controllers
             return View(transaction);
         }
 
-        // GET: Transactions/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -181,9 +143,6 @@ namespace CompanyWebManager.Controllers
             return View(transaction);
         }
 
-        // POST: Transactions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,TransactionID,Type,ProductID,ProductNetPrice,ProductGrossPrice,Date")] Transaction transaction)
@@ -216,7 +175,6 @@ namespace CompanyWebManager.Controllers
             return View(transaction);
         }
 
-        // GET: Transactions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -234,7 +192,6 @@ namespace CompanyWebManager.Controllers
             return View(transaction);
         }
 
-        // POST: Transactions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
