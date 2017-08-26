@@ -1,4 +1,4 @@
-@model IEnumerable<CompanyWebManager.Models.Employee>
+@model CompanyWebManager.Models.ViewModels.EmployeesListViewModel
 
 @{
     ViewData["Title"] = "Employee";
@@ -14,28 +14,28 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
+                    @Html.DisplayNameFor(model => model.Headers.FirstName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.LastName)
+                    @Html.DisplayNameFor(model => model.Headers.LastName)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Email)
+                    @Html.DisplayNameFor(model => model.Headers.Email)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                    @Html.DisplayNameFor(model => model.Headers.PhoneNumber)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Position)
+                    @Html.DisplayNameFor(model => model.Headers.Position)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Salary)
+                    @Html.DisplayNameFor(model => model.Headers.Salary)
                 </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Employees) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)

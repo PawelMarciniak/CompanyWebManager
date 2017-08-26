@@ -1,18 +1,20 @@
-@model CompanyWebManager.Models.Product
+@using Org.BouncyCastle.Asn1.X509
+@model CompanyWebManager.Models.ViewModels.ProductsViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytuj produkt";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>Edytuj produkt</h2>
 
 <form asp-action="Edit">
     <div class="form-horizontal">
-        <h4>Product</h4>
+        <h4>@Html.DisplayText(Model.Name)</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="ownerID" />
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -39,13 +41,6 @@
             <div class="col-md-10">
                 <input asp-for="GrossPrice" class="form-control" />
                 <span asp-validation-for="GrossPrice" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Quantity" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">

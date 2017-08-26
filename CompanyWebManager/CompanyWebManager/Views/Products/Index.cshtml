@@ -1,4 +1,4 @@
-@model IEnumerable<CompanyWebManager.Models.Product>
+@model CompanyWebManager.Models.ViewModels.ProductsListViewModel
 
 @{
     ViewData["Title"] = "Lista Produktow";
@@ -14,25 +14,25 @@
     <thead>
         <tr>
                 <th>
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.Headers.Name)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Description)
+                    @Html.DisplayNameFor(model => model.Headers.Description)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.NetPrice)
+                    @Html.DisplayNameFor(model => model.Headers.NetPrice)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.GrossPrice)
+                    @Html.DisplayNameFor(model => model.Headers.GrossPrice)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Quantity)
+                    @Html.DisplayNameFor(model => model.Headers.Quantity)
                 </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Products) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)

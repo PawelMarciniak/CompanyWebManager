@@ -1,4 +1,4 @@
-@model CompanyWebManager.Models.Employee
+@model CompanyWebManager.Models.ViewModels.EmployeesViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -49,12 +49,42 @@
         <dd>
             @Html.DisplayFor(model => model.Salary)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Street)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Street)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Town)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Town)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PostalCode)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Voivodeship)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VoivodeshipName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.CountryName)
+        </dd>
     </dl>
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Usun" class="btn btn-danger" /> 
+            <a class="btn btn-success" asp-action="Index">Powrot do listy pracownikow</a>
         </div>
     </form>
 </div>

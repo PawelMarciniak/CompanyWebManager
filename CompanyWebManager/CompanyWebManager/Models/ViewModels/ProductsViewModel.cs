@@ -5,21 +5,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CompanyWebManager.Models
+namespace CompanyWebManager.Models.ViewModels
 {
-    public class Product
+    public class ProductsViewModel
     {
-        #region Properties
-
         public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal NetPrice { get; set; }
-        public decimal GrossPrice { get; set; }
-        public int Quantity { get; set; }
-        public int CompanyID { get; set; }
-        public int ownerID { get; set; }
 
-        #endregion
+        [Display(Name = "Nazwa")]
+        public string Name { get; set; }
+
+        [Display(Name = "Opis")]
+        public string Description { get; set; }
+
+        [Display(Name = "Cena Netto")]
+        public decimal NetPrice { get; set; }
+
+        [Display(Name = "Cena Brutto")]
+        public decimal GrossPrice { get; set; }
+
+        [Display(Name = "Stan")]
+        public int Quantity { get; set; }
+
+        [Display(Name = "Ilosc")]
+        [NotMapped]
+        public int Units { get; set; }
+
+        public int CompanyID { get; set; }
+
+        public int ownerID { get; set; }
     }
 }

@@ -1,14 +1,13 @@
-@model CompanyWebManager.Models.Product
+@model CompanyWebManager.Models.ViewModels.ProductsViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegoly produktu";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2>Szczegoly produktu</h2>
 
-<div>
-    <h4>Product</h4>
+<div class="detailedFont">
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -44,6 +43,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Edit" asp-route-id="@Model.ID">Edytuj</a> |
+    <a class="btn btn-success" asp-action="Index">Powrot do listy produktow</a>
 </div>

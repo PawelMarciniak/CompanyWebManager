@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.ViewModels;
 
 namespace CompanyWebManager.Controllers
 {
@@ -26,7 +27,9 @@ namespace CompanyWebManager.Controllers
 
             if (isAuthenticated)
             {
-                return View(await _context.Product.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID")).ToListAsync());
+                var products = _context.Product.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
+
+                return View(MapProductsListToView(products));
             }
             return RedirectToAction("Login", "Account", new { area = "" });
            
@@ -46,7 +49,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            return View(MapProductToView(product));
         }
 
         public IActionResult Create()
@@ -56,13 +59,13 @@ namespace CompanyWebManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description,NetPrice,GrossPrice,Quantity")] Product product)
+        public async Task<IActionResult> Create([Bind("ID,Name,Description,NetPrice,GrossPrice,Quantity")] ProductsViewModel product)
         {
             if (ModelState.IsValid)
             {
                 product.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
                 product.GrossPrice = product.NetPrice * 1.23M;
-                _context.Add(product);
+                _context.Add(MapViewToProduct(product));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -81,12 +84,12 @@ namespace CompanyWebManager.Controllers
             {
                 return NotFound();
             }
-            return View(product);
+            return View(MapProductToView(product));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,NetPrice,GrossPrice,Quantity")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,NetPrice,GrossPrice")] ProductsViewModel product)
         {
             if (id != product.ID)
             {
@@ -97,7 +100,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(MapViewToProduct(product));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -130,7 +133,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(product);
+            return View(MapProductToView(product));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -147,5 +150,77 @@ namespace CompanyWebManager.Controllers
         {
             return _context.Product.Any(e => e.ID == id);
         }
+
+        #region Helpers
+
+        public Product MapViewToProduct(ProductsViewModel productsViewModel)
+        {
+            Product product = new Product
+            {
+                ID = productsViewModel.ID,
+                Name = productsViewModel.Name,
+                Description = productsViewModel.Description,
+                NetPrice = productsViewModel.NetPrice,
+                GrossPrice = productsViewModel.GrossPrice,
+                Quantity = productsViewModel.Quantity,
+                CompanyID = productsViewModel.CompanyID,
+                ownerID = productsViewModel.ownerID
+            };
+
+            return product;
+        }
+
+        public ProductsViewModel MapProductToView(Product product)
+        {
+            ProductsViewModel vModel = new ProductsViewModel
+            {
+                ID = product.ID,
+                Name = product.Name,
+                Description = product.Description,
+                NetPrice = product.NetPrice,
+                GrossPrice = product.GrossPrice,
+                Quantity = product.Quantity,
+                CompanyID = product.CompanyID,
+                ownerID = product.ownerID
+            };
+
+            return vModel;
+        }
+
+        public ProductsListViewModel MapProductsListToView(IQueryable<Product> products)
+        {
+            ProductsListViewModel vModel = new ProductsListViewModel();
+
+            vModel.Products = products.Select(p => new ProductsViewModel()
+            {
+                ID = p.ID,
+                Name = p.Name,
+                Description = p.Description,
+                NetPrice = p.NetPrice,
+                GrossPrice = p.GrossPrice,
+                Quantity = p.Quantity,
+                CompanyID = p.CompanyID,
+                ownerID = p.ownerID
+            }).ToList();
+
+            return vModel;
+        }
+
+        public void PrepareVoivodeshipsAndCountires()
+        {
+            List<Voivodeship> voivodeships = new List<Voivodeship>();
+
+            voivodeships = _context.Voivodeships.ToList();
+            voivodeships.Insert(0, new Voivodeship { ID = 0, Name = "Select" });
+            ViewBag.Voivodeships = voivodeships;
+
+            List<Country> countries = new List<Country>();
+
+            countries = _context.Countries.ToList();
+            countries.Insert(0, new Country { ID = 0, Name = "Select" });
+            ViewBag.Countries = countries;
+        }
+
+        #endregion
     }
 }
