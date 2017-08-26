@@ -1,15 +1,14 @@
-@model CompanyWebManager.Models.Client
+@model CompanyWebManager.Models.ViewModels.ClientsViewModel
 
 @{
     ViewData["Title"] = "Delete";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Usuniecie klienta</h2>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Client</h4>
+<h3>Czy na pewno chcesz usunac tego klienta?</h3>
+<div class="detailedFont">
     <hr />
     <dl class="dl-horizontal">
         <input type="hidden" asp-for="ID" />
@@ -53,26 +52,20 @@
             @Html.DisplayNameFor(model => model.Voivodeship)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Voivodeship)
+            @Html.DisplayFor(model => model.VoivodeshipName)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Country)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Country)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ownerID)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ownerID)
+            @Html.DisplayFor(model => model.CountryName)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
+            <input type="submit" value="Usun" class="btn btn-danger" /> 
+            <a class="btn btn-success" asp-action="Index">Powrot do listy klientow</a>
         </div>
     </form>
 </div>

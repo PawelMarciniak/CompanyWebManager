@@ -9,6 +9,7 @@ using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace CompanyWebManager.Controllers
 {
@@ -28,25 +29,9 @@ namespace CompanyWebManager.Controllers
 
             if (isAuthenticated)
             {
-                ClientsListViewModel vModel = new ClientsListViewModel();
                 var clients = _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
 
-                vModel.Clients = clients.Select(s => new ClientsViewModel()
-                {
-                    ID = s.ID,
-                    FirstName = s.FirstName,
-                    LastName = s.LastName,
-                    ClientEmail = s.ClientEmail,
-                    Street = s.Street,
-                    Town = s.Town, 
-                    PostalCode = s.PostalCode,
-                    VoivodeshipName = _context.Voivodeships.Where(v => v.ID == s.Voivodeship).Select( v => v.Name).First(),
-                    CountryName = _context.Countries.Where(v => v.ID == s.Country).Select(v => v.Name).First(),
-                    ownerID = s.ownerID
-                }).ToList();
-
-               // var clientsContext = _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
-                return View(vModel);
+                return View(MapClientsListToView(clients));
             }
             return RedirectToAction("Login", "Account", new { area = "" });
 
@@ -66,33 +51,23 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(client);
+            return View(MapClientToView(client));
         }
 
         public IActionResult Create()
         {
-            List<Voivodeship> voivodeships = new List<Voivodeship>();
-
-            voivodeships = _context.Voivodeships.ToList();
-            voivodeships.Insert(0, new Voivodeship { ID = 0, Name = "Select" });
-            ViewBag.Voivodeships = voivodeships;
-
-            List<Country> countries = new List<Country>();
-
-            countries = _context.Countries.ToList();
-            countries.Insert(0, new Country { ID = 0, Name = "Select" });
-            ViewBag.Countries = countries;
+            PrepareVoivodeshipsAndCountires();
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country,ownerID")] Client client)
+        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country,ownerID")] ClientsViewModel client)
         {
             if (ModelState.IsValid)
             {
                 client.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
-                _context.Add(client);
+                _context.Add(MapViewToClient(client));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -111,12 +86,14 @@ namespace CompanyWebManager.Controllers
             {
                 return NotFound();
             }
-            return View(client);
+
+            PrepareVoivodeshipsAndCountires();
+            return View(MapClientToView(client));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country,ownerID")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,FirstName,LastName,ClientEmail,Street,Town,PostalCode,Voivodeship,Country, ownerID")] ClientsViewModel client)
         {
             if (id != client.ID)
             {
@@ -127,7 +104,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(client);
+                    _context.Update(MapViewToClient(client));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -160,7 +137,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(client);
+            return View(MapClientToView(client));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -177,5 +154,85 @@ namespace CompanyWebManager.Controllers
         {
             return _context.Clients.Any(e => e.ID == id);
         }
+
+        #region Helpers
+
+        public Client MapViewToClient(ClientsViewModel clientsViewModel)
+        {
+            Client client = new Client
+            {
+                ID = clientsViewModel.ID,
+                FirstName = clientsViewModel.FirstName,
+                LastName = clientsViewModel.LastName,
+                ClientEmail = clientsViewModel.ClientEmail,
+                Street = clientsViewModel.Street,
+                Town = clientsViewModel.Town,
+                PostalCode = clientsViewModel.PostalCode,
+                Voivodeship = clientsViewModel.Voivodeship,
+                Country = clientsViewModel.Country,
+                ownerID = clientsViewModel.ownerID
+            };
+
+            return client;
+        }
+
+        public ClientsViewModel MapClientToView(Client client)
+        {
+            ClientsViewModel vModel = new ClientsViewModel
+            {
+                ID = client.ID,
+                FirstName = client.FirstName,
+                LastName = client.LastName,
+                ClientEmail = client.ClientEmail,
+                Street = client.Street,
+                Town = client.Town,
+                PostalCode = client.PostalCode,
+                Voivodeship = client.Voivodeship,
+                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == client.Voivodeship).Select(v => v.Name).First(),
+                Country = client.Country,
+                CountryName = _context.Countries.Where(v => v.ID == client.Country).Select(v => v.Name).First(),
+                ownerID = client.ownerID
+            };
+
+            return vModel;
+        }
+
+        public ClientsListViewModel MapClientsListToView(IQueryable<Client> clients)
+        {
+            ClientsListViewModel vModel = new ClientsListViewModel();
+
+            vModel.Clients = clients.Select(s => new ClientsViewModel()
+            {
+                ID = s.ID,
+                FirstName = s.FirstName,
+                LastName = s.LastName,
+                ClientEmail = s.ClientEmail,
+                Street = s.Street,
+                Town = s.Town,
+                PostalCode = s.PostalCode,
+                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == s.Voivodeship).Select(v => v.Name).First(),
+                CountryName = _context.Countries.Where(v => v.ID == s.Country).Select(v => v.Name).First(),
+                ownerID = s.ownerID
+            }).ToList();
+
+            return vModel;
+        }
+
+        public void PrepareVoivodeshipsAndCountires()
+        {
+            List<Voivodeship> voivodeships = new List<Voivodeship>();
+
+            voivodeships = _context.Voivodeships.ToList();
+            voivodeships.Insert(0, new Voivodeship { ID = 0, Name = "Select" });
+            ViewBag.Voivodeships = voivodeships;
+
+            List<Country> countries = new List<Country>();
+
+            countries = _context.Countries.ToList();
+            countries.Insert(0, new Country { ID = 0, Name = "Select" });
+            ViewBag.Countries = countries;
+        }
+
+        #endregion
     }
 }

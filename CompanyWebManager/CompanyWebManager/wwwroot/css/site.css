@@ -52,3 +52,7 @@ textarea {
 .hidden {
     display: none;
 }
+
+.detailedFont {
+    font-size: 20px;
+}

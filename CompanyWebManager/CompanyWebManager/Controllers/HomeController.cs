@@ -18,7 +18,7 @@ namespace CompanyWebManager.Controllers
         {
             bool isAuthenticated = User.Identity.IsAuthenticated;            
 
-            if (isAuthenticated)
+            if (isAuthenticated && HttpContext.Session.GetObjectFromJson<int>("ownerID") != 0)
             {
                 return RedirectToAction("Index", "Emails", new { area = "" });
             }

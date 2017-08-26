@@ -1,4 +1,4 @@
-@model CompanyWebManager.Models.Company
+@model CompanyWebManager.Models.ViewModels.CompaniesViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,7 +12,8 @@
         <h4>Company</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="ID" />
+        <input type="hidden" asp-for="OwnerID"  />
         <div class="form-group">
             <label asp-for="Name" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -58,33 +59,24 @@
         <div class="form-group">
             <label asp-for="Voivodeship" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Voivodeship" class="form-control" />
-                <span asp-validation-for="Voivodeship" class="text-danger"></span>
+                <select asp-for="Voivodeship" class="form-control" asp-items="@(new SelectList(ViewBag.Voivodeships, "ID", "Name", Model.Voivodeship))"></select>
             </div>
         </div>
         <div class="form-group">
             <label asp-for="Country" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Country" class="form-control" />
-                <span asp-validation-for="Country" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="OwnerID" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="OwnerID" class="form-control" />
-                <span asp-validation-for="OwnerID" class="text-danger"></span>
+                <select asp-for="Country" class="form-control" asp-items="@(new SelectList(ViewBag.Countries, "ID", "Name", Model.Country))"></select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Save" class="btn btn-success" />
             </div>
         </div>
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success" asp-action="Index">Powrot do listy firm</a>
 </div>
 

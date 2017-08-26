@@ -16,7 +16,7 @@ namespace CompanyWebManager.Models
         public string Street { get; set; }
         public string Town { get; set; }
         public string PostalCode { get; set; }
-        public int Voivodeship { get; set; }
+        public int? Voivodeship { get; set; }
         public int Country { get; set; }
         public int ownerID { get; set; }
     }

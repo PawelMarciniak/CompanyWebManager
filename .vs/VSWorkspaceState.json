@@ -7,10 +7,10 @@
     "\\CompanyWebManager\\CompanyWebManager\\Helpers",
     "\\CompanyWebManager\\CompanyWebManager\\Models",
     "\\CompanyWebManager\\CompanyWebManager\\Views",
-    "\\CompanyWebManager\\CompanyWebManager\\Views\\Emails",
+    "\\CompanyWebManager\\CompanyWebManager\\Views\\Products",
     "\\CompanyWebManager\\CompanyWebManager\\wwwroot",
-    "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\js"
+    "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\css"
   ],
-  "SelectedNode": "\\CompanyWebManager\\CompanyWebManager\\CompanyWebManager.csproj",
+  "SelectedNode": "\\CompanyWebManager\\CompanyWebManager\\wwwroot\\css\\site.css",
   "PreviewInSolutionExplorer": false
 }
