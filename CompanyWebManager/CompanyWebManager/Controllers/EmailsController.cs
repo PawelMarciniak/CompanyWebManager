@@ -36,14 +36,15 @@ namespace CompanyWebManager.Controllers
         [HttpPost, HttpGet]
         public async Task<IActionResult> SaveEmail(int id)
         {
-            Email msg = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
-            msg.OwnerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+            int ownerId = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+            Email msg = HttpContext.Session.GetItemOfSessionList<Email>(string.Format("ReceivedEmails-{0}", ownerId), id);
+            msg.OwnerID = ownerId;
             msg.Saved = true;
             _context.Add(msg);
             await _context.SaveChangesAsync();
 
             es.SetEmailAsRead(msg.Uid);
-            HttpContext.Session.RemoveFromSessionList<Email>("ReceivedEmails", id);
+            HttpContext.Session.RemoveFromSessionList<Email>(string.Format("ReceivedEmails-{0}", ownerId), id);
             return RedirectToAction("ReceiveEmails");
         }
 
@@ -71,7 +72,7 @@ namespace CompanyWebManager.Controllers
             }
             else
             {
-                email = HttpContext.Session.GetItemOfSessionList<Email>("ReceivedEmails", id);
+                email = HttpContext.Session.GetItemOfSessionList<Email>(string.Format("ReceivedEmails-{0}", HttpContext.Session.GetObjectFromJson<int>("ownerID")), id);
                 es.DeteleEmail(email.Uid);
             }
 
@@ -88,16 +89,20 @@ namespace CompanyWebManager.Controllers
 
         public async Task<IActionResult> ReceiveEmails(string login, string pass)
         {
-            if (!string.IsNullOrEmpty(login))
+            List<Email> newEmails =  new List<Email>();
+            if (string.IsNullOrEmpty(login))
             {
-                StoreData(login, pass);
+                return View("Index", newEmails);
             }
-            
-            List<Email> newEmails = await es.ReceiveEmails(login, pass);
-            HttpContext.Session.SetObjectAsJson("ReceivedEmails", newEmails);
-            List<Email> emails = await _context.Emails.
-                                    Where(s => s.OwnerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"))
-                                    .ToListAsync();
+            //if (!string.IsNullOrEmpty(login))
+            //{
+            //    StoreData(login, pass);
+            //}
+
+            int ownerId = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+            newEmails = await es.ReceiveEmails(login, pass);
+            HttpContext.Session.SetObjectAsJson(string.Format("ReceivedEmails-{0}", ownerId), newEmails);
+            List<Email> emails = await _context.Emails.Where(s => s.OwnerID == ownerId).ToListAsync();
 
             emails.AddRange(newEmails);
 
@@ -105,25 +110,10 @@ namespace CompanyWebManager.Controllers
 
         }
 
-        public void StoreData(string email, string pass)
-        {
-
-            HttpContext.Session.SetObjectAsJson("email", email);
-            HttpContext.Session.SetObjectAsJson("pass", pass);
-
-            //var key = Guid.NewGuid().ToString().Replace("-", "");
-
-            //var encrMail = EncryptHelper.EncryptString(email, key);
-            //var encrPass = EncryptHelper.EncryptString(pass, key);
-
-            //HttpContext.Session.SetObjectAsJson("key", key);
-            //HttpContext.Session.SetObjectAsJson("email", encrMail);
-            //HttpContext.Session.SetObjectAsJson("pass", encrPass);
-            //var tmpEmail = HttpContext.Session.GetObjectFromJson<byte[]>("email");
-
-            //var tst = Convert.FromBase64String(tmpEmail);
-
-            //var testEmail = EncryptHelper.DecryptString(Convert.FromBase64String(tmpEmail), key);
-        }
+        //public void StoreData(string email, string pass)
+        //{
+        //    HttpContext.Session.SetObjectAsJson("email", email);
+        //    HttpContext.Session.SetObjectAsJson("pass", pass);
+        //}
     }
 }

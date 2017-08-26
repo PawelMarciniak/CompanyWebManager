@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using CompanyWebManager.Models.ViewModels;
 
 namespace CompanyWebManager.Models
 {
@@ -14,6 +15,6 @@ namespace CompanyWebManager.Models
         [Display(Name = "Opis")]
         public string Description { get; set; }
 
-        public List<Product> Products { get; set; }
+        public List<ProductsViewModel> Products { get; set; }
     }
 }

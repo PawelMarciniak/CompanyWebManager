@@ -56,3 +56,8 @@ textarea {
 .detailedFont {
     font-size: 20px;
 }
+
+.tableInfo {
+    font-size: 18px;
+    font-weight: bold;
+}

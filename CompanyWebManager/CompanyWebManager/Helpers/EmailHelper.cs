@@ -111,8 +111,8 @@ namespace CompanyWebManager.Helpers
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                 await client.ConnectAsync("imap.gmail.com", 993, true);
-                //await client.AuthenticateAsync(login, pass);
-                await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                await client.AuthenticateAsync(login, pass);
+                //await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
 
                 var inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);

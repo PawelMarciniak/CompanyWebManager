@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
+using CompanyWebManager.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 
 namespace CompanyWebManager.Helpers
@@ -24,7 +25,7 @@ namespace CompanyWebManager.Helpers
 
             var id = transDesc.ID;
 
-            foreach (Product product in transactionData.Products)
+            foreach (ProductsViewModel product in transactionData.Products)
             {
                 Transaction trans = new Transaction();
 
@@ -45,18 +46,39 @@ namespace CompanyWebManager.Helpers
 
         public void UpdateProductUnits(TransactionData data, ApplicationDb context)
         {
-            foreach (Product product in data.Products)
+            foreach (ProductsViewModel product in data.Products)
             {
                 var quantity = context.Product.Where(p => p.ID == product.ID).Select(p => p.Quantity).First();
                 int newQuaintity = data.Type == 1 ? quantity + product.Quantity : quantity - product.Quantity;
 
-                product.Units = newQuaintity;
+                product.Quantity = newQuaintity;
 
-                context.Product.Attach(product);
-                context.Entry(product).Property(u => u.Units).IsModified = true;
+                context.Product.Attach(MapViewToProduct(product));
+                context.Entry(product).Property(u => u.Quantity).IsModified = true;
                 context.SaveChanges();
             }
         }
+
+        #region Map
+
+        public Product MapViewToProduct(ProductsViewModel productsViewModel)
+        {
+            Product product = new Product
+            {
+                ID = productsViewModel.ID,
+                Name = productsViewModel.Name,
+                Description = productsViewModel.Description,
+                NetPrice = productsViewModel.NetPrice,
+                GrossPrice = productsViewModel.GrossPrice,
+                Quantity = productsViewModel.Quantity,
+                CompanyID = productsViewModel.CompanyID,
+                ownerID = productsViewModel.ownerID
+            };
+
+            return product;
+        }
+
+        #endregion
 
     }
 }
