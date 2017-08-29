@@ -10,6 +10,7 @@ using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CompanyWebManager.Models.Mappers;
 
 namespace CompanyWebManager.Controllers
 {
@@ -31,7 +32,7 @@ namespace CompanyWebManager.Controllers
             {
                 var clients = _context.Clients.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
 
-                return View(MapClientsListToView(clients));
+                return View(ClientMapper.MapClientsListToView(clients, _context));
             }
             return RedirectToAction("Login", "Account", new { area = "" });
 
@@ -51,7 +52,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapClientToView(client));
+            return View(ClientMapper.MapClientToView(client, _context));
         }
 
         public IActionResult Create()
@@ -67,7 +68,7 @@ namespace CompanyWebManager.Controllers
             if (ModelState.IsValid)
             {
                 client.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
-                _context.Add(MapViewToClient(client));
+                _context.Add(ClientMapper.MapViewToClient(client));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -88,7 +89,7 @@ namespace CompanyWebManager.Controllers
             }
 
             PrepareVoivodeshipsAndCountires();
-            return View(MapClientToView(client));
+            return View(ClientMapper.MapClientToView(client, _context));
         }
 
         [HttpPost]
@@ -104,7 +105,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(MapViewToClient(client));
+                    _context.Update(ClientMapper.MapViewToClient(client));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -137,7 +138,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapClientToView(client));
+            return View(ClientMapper.MapClientToView(client, _context));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -156,67 +157,6 @@ namespace CompanyWebManager.Controllers
         }
 
         #region Helpers
-
-        public Client MapViewToClient(ClientsViewModel clientsViewModel)
-        {
-            Client client = new Client
-            {
-                ID = clientsViewModel.ID,
-                FirstName = clientsViewModel.FirstName,
-                LastName = clientsViewModel.LastName,
-                ClientEmail = clientsViewModel.ClientEmail,
-                Street = clientsViewModel.Street,
-                Town = clientsViewModel.Town,
-                PostalCode = clientsViewModel.PostalCode,
-                Voivodeship = clientsViewModel.Voivodeship,
-                Country = clientsViewModel.Country,
-                ownerID = clientsViewModel.ownerID
-            };
-
-            return client;
-        }
-
-        public ClientsViewModel MapClientToView(Client client)
-        {
-            ClientsViewModel vModel = new ClientsViewModel
-            {
-                ID = client.ID,
-                FirstName = client.FirstName,
-                LastName = client.LastName,
-                ClientEmail = client.ClientEmail,
-                Street = client.Street,
-                Town = client.Town,
-                PostalCode = client.PostalCode,
-                Voivodeship = client.Voivodeship,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == client.Voivodeship).Select(v => v.Name).First(),
-                Country = client.Country,
-                CountryName = _context.Countries.Where(v => v.ID == client.Country).Select(v => v.Name).First(),
-                ownerID = client.ownerID
-            };
-
-            return vModel;
-        }
-
-        public ClientsListViewModel MapClientsListToView(IQueryable<Client> clients)
-        {
-            ClientsListViewModel vModel = new ClientsListViewModel();
-
-            vModel.Clients = clients.Select(s => new ClientsViewModel()
-            {
-                ID = s.ID,
-                FirstName = s.FirstName,
-                LastName = s.LastName,
-                ClientEmail = s.ClientEmail,
-                Street = s.Street,
-                Town = s.Town,
-                PostalCode = s.PostalCode,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == s.Voivodeship).Select(v => v.Name).First(),
-                CountryName = _context.Countries.Where(v => v.ID == s.Country).Select(v => v.Name).First(),
-                ownerID = s.ownerID
-            }).ToList();
-
-            return vModel;
-        }
 
         public void PrepareVoivodeshipsAndCountires()
         {

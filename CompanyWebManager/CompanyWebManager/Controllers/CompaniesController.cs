@@ -10,6 +10,7 @@ using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CompanyWebManager.Models.Mappers;
 
 
 namespace CompanyWebManager.Controllers
@@ -31,7 +32,7 @@ namespace CompanyWebManager.Controllers
             {
                 var companies = _context.Companies.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
 
-                return View(MapCompaniesListToView(companies));
+                return View(CompanyMapper.MapCompaniesListToView(companies, _context));
 
                 //return View(await _context.Companies.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID")).ToListAsync());
             }
@@ -52,7 +53,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapCompanyToView(company));
+            return View(CompanyMapper.MapCompanyToView(company, _context));
         }
 
         public IActionResult Create()
@@ -68,7 +69,7 @@ namespace CompanyWebManager.Controllers
             if (ModelState.IsValid)
             {
                 company.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
-                _context.Add(MapViewToCompany(company));
+                _context.Add(CompanyMapper.MapViewToCompany(company));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -89,7 +90,7 @@ namespace CompanyWebManager.Controllers
             }
 
             PrepareVoivodeshipsAndCountires();
-            return View(MapCompanyToView(company));
+            return View(CompanyMapper.MapCompanyToView(company, _context));
         }
 
         [HttpPost]
@@ -105,7 +106,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(MapCompanyToView(company));
+                    _context.Update(CompanyMapper.MapCompanyToView(company, _context));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -138,7 +139,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapCompanyToView(company));
+            return View(CompanyMapper.MapCompanyToView(company, _context));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -158,66 +159,7 @@ namespace CompanyWebManager.Controllers
 
         #region Helpers
 
-        public Company MapViewToCompany(CompaniesViewModel companiesViewModel)
-        {
-            Company company = new Company
-            {
-                ID = companiesViewModel.ID,
-                Name = companiesViewModel.Name,
-                Trade = companiesViewModel.Trade,
-                CompanyEmail = companiesViewModel.CompanyEmail,
-                Street = companiesViewModel.Street,
-                Town = companiesViewModel.Town,
-                PostalCode = companiesViewModel.PostalCode,
-                Voivodeship = companiesViewModel.Voivodeship,
-                Country = companiesViewModel.Country,
-                ownerID = companiesViewModel.ownerID
-            };
-
-            return company;
-        }
-
-        public CompaniesViewModel MapCompanyToView(Company company)
-        {
-            CompaniesViewModel vModel = new CompaniesViewModel
-            {
-                ID = company.ID,
-                Name = company.Name,
-                Trade = company.Trade,
-                CompanyEmail = company.CompanyEmail,
-                Street = company.Street,
-                Town = company.Town,
-                PostalCode = company.PostalCode,
-                Voivodeship = company.Voivodeship,
-                Country = company.Country,
-                ownerID = company.ownerID,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == company.Voivodeship).Select(v => v.Name).First(),
-                CountryName = _context.Countries.Where(v => v.ID == company.Country).Select(v => v.Name).First()
-            };
-
-            return vModel;
-        }
-
-        public CompaniesListViewModel MapCompaniesListToView(IQueryable<Company> companies)
-        {
-            CompaniesListViewModel vModel = new CompaniesListViewModel();
-
-            vModel.Companies = companies.Select(c => new CompaniesViewModel()
-            {
-                ID = c.ID,
-                Name = c.Name,
-                Trade = c.Trade,
-                CompanyEmail = c.CompanyEmail,
-                Street = c.Street,
-                Town = c.Town,
-                PostalCode = c.PostalCode,
-                ownerID = c.ownerID,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == c.Voivodeship).Select(v => v.Name).First(),
-                CountryName = _context.Countries.Where(v => v.ID == c.Country).Select(v => v.Name).First()
-            }).ToList();
-
-            return vModel;
-        }
+        
 
         public void PrepareVoivodeshipsAndCountires()
         {

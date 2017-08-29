@@ -9,6 +9,7 @@ using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
+using CompanyWebManager.Models.Mappers;
 
 namespace CompanyWebManager.Controllers
 {
@@ -29,7 +30,7 @@ namespace CompanyWebManager.Controllers
             {
                 var products = _context.Product.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
 
-                return View(MapProductsListToView(products));
+                return View(ProductMapper.MapProductsListToView(products));
             }
             return RedirectToAction("Login", "Account", new { area = "" });
            
@@ -49,7 +50,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapProductToView(product));
+            return View(ProductMapper.MapProductToView(product));
         }
 
         public IActionResult Create()
@@ -65,7 +66,7 @@ namespace CompanyWebManager.Controllers
             {
                 product.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
                 product.GrossPrice = product.NetPrice * 1.23M;
-                _context.Add(MapViewToProduct(product));
+                _context.Add(ProductMapper.MapViewToProduct(product));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -84,7 +85,7 @@ namespace CompanyWebManager.Controllers
             {
                 return NotFound();
             }
-            return View(MapProductToView(product));
+            return View(ProductMapper.MapProductToView(product));
         }
 
         [HttpPost]
@@ -100,7 +101,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(MapViewToProduct(product));
+                    _context.Update(ProductMapper.MapViewToProduct(product));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,7 +134,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapProductToView(product));
+            return View(ProductMapper.MapProductToView(product));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -153,58 +154,7 @@ namespace CompanyWebManager.Controllers
 
         #region Helpers
 
-        public Product MapViewToProduct(ProductsViewModel productsViewModel)
-        {
-            Product product = new Product
-            {
-                ID = productsViewModel.ID,
-                Name = productsViewModel.Name,
-                Description = productsViewModel.Description,
-                NetPrice = productsViewModel.NetPrice,
-                GrossPrice = productsViewModel.GrossPrice,
-                Quantity = productsViewModel.Quantity,
-                CompanyID = productsViewModel.CompanyID,
-                ownerID = productsViewModel.ownerID
-            };
-
-            return product;
-        }
-
-        public ProductsViewModel MapProductToView(Product product)
-        {
-            ProductsViewModel vModel = new ProductsViewModel
-            {
-                ID = product.ID,
-                Name = product.Name,
-                Description = product.Description,
-                NetPrice = product.NetPrice,
-                GrossPrice = product.GrossPrice,
-                Quantity = product.Quantity,
-                CompanyID = product.CompanyID,
-                ownerID = product.ownerID
-            };
-
-            return vModel;
-        }
-
-        public ProductsListViewModel MapProductsListToView(IQueryable<Product> products)
-        {
-            ProductsListViewModel vModel = new ProductsListViewModel();
-
-            vModel.Products = products.Select(p => new ProductsViewModel()
-            {
-                ID = p.ID,
-                Name = p.Name,
-                Description = p.Description,
-                NetPrice = p.NetPrice,
-                GrossPrice = p.GrossPrice,
-                Quantity = p.Quantity,
-                CompanyID = p.CompanyID,
-                ownerID = p.ownerID
-            }).ToList();
-
-            return vModel;
-        }
+       
 
         public void PrepareVoivodeshipsAndCountires()
         {

@@ -9,6 +9,7 @@ using CompanyWebManager.DataContexts;
 using CompanyWebManager.Helpers;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
+using CompanyWebManager.Models.Mappers;
 
 namespace CompanyWebManager.Controllers
 {
@@ -29,7 +30,7 @@ namespace CompanyWebManager.Controllers
             {
                 var employees = _context.Employee.Where(s => s.ownerID == HttpContext.Session.GetObjectFromJson<int>("ownerID"));
 
-                return View(MapEmployeesListToView(employees));
+                return View(EmployeeMapper.MapEmployeesListToView(employees, _context));
 
                 //var applicationDb = _context.Employee;
                 //return View(await applicationDb.ToListAsync());
@@ -52,7 +53,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapEmployeeToView(employee));
+            return View(EmployeeMapper.MapEmployeeToView(employee, _context));
         }
 
         public IActionResult Create()
@@ -68,7 +69,7 @@ namespace CompanyWebManager.Controllers
             if (ModelState.IsValid)
             {
                 employee.ownerID = HttpContext.Session.GetObjectFromJson<int>("ownerID");
-                _context.Add(MapViewToEmployee(employee));
+                _context.Add(EmployeeMapper.MapViewToEmployee(employee));
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -89,7 +90,7 @@ namespace CompanyWebManager.Controllers
             }
 
             PrepareVoivodeshipsAndCountires();
-            return View(MapEmployeeToView(employee));
+            return View(EmployeeMapper.MapEmployeeToView(employee, _context));
         }
 
         [HttpPost]
@@ -105,7 +106,7 @@ namespace CompanyWebManager.Controllers
             {
                 try
                 {
-                    _context.Update(MapViewToEmployee(employee));
+                    _context.Update(EmployeeMapper.MapViewToEmployee(employee));
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -138,7 +139,7 @@ namespace CompanyWebManager.Controllers
                 return NotFound();
             }
 
-            return View(MapEmployeeToView(employee));
+            return View(EmployeeMapper.MapEmployeeToView(employee, _context));
         }
 
         [HttpPost, ActionName("Delete")]
@@ -158,75 +159,7 @@ namespace CompanyWebManager.Controllers
 
         #region Helpers
 
-        public Employee MapViewToEmployee(EmployeesViewModel employeesViewModel)
-        {
-            Employee employee = new Employee
-            {
-                ID = employeesViewModel.ID,
-                FirstName = employeesViewModel.FirstName,
-                LastName = employeesViewModel.LastName,
-                Email = employeesViewModel.Email,
-                PhoneNumber = employeesViewModel.PhoneNumber,
-                Position = employeesViewModel.Position,
-                Salary = employeesViewModel.Salary,
-                Street = employeesViewModel.Street,
-                Town = employeesViewModel.Town,
-                PostalCode = employeesViewModel.PostalCode,
-                Voivodeship = employeesViewModel.Voivodeship,
-                Country = employeesViewModel.Country,
-                ownerID = employeesViewModel.ownerID
-            };
-
-            return employee;
-        }
-
-        public EmployeesViewModel MapEmployeeToView(Employee employee)
-        {
-            EmployeesViewModel vModel = new EmployeesViewModel
-            {
-                ID = employee.ID,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                Email = employee.Email,
-                PhoneNumber = employee.PhoneNumber,
-                Position = employee.Position,
-                Salary = employee.Salary,
-                Street = employee.Street,
-                Town = employee.Town,
-                PostalCode = employee.PostalCode,
-                Voivodeship = employee.Voivodeship,
-                Country = employee.Country,
-                ownerID = employee.ownerID,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == employee.Voivodeship).Select(v => v.Name).First(),
-                CountryName = _context.Countries.Where(v => v.ID == employee.Country).Select(v => v.Name).First()
-            };
-
-            return vModel;
-        }
-
-        public EmployeesListViewModel MapEmployeesListToView(IQueryable<Employee> employees)
-        {
-            EmployeesListViewModel vModel = new EmployeesListViewModel();
-
-            vModel.Employees = employees.Select(e => new EmployeesViewModel()
-            {
-                ID = e.ID,
-                FirstName = e.FirstName,
-                LastName = e.LastName,
-                Email = e.Email,
-                PhoneNumber = e.PhoneNumber,
-                Position = e.Position,
-                Salary = e.Salary,
-                Street = e.Street,
-                Town = e.Town,
-                PostalCode = e.PostalCode,
-                ownerID = e.ownerID,
-                VoivodeshipName = _context.Voivodeships.Where(v => v.ID == e.Voivodeship).Select(v => v.Name).First(),
-                CountryName = _context.Countries.Where(v => v.ID == e.Country).Select(v => v.Name).First()
-            }).ToList();
-
-            return vModel;
-        }
+        
 
         public void PrepareVoivodeshipsAndCountires()
         {
