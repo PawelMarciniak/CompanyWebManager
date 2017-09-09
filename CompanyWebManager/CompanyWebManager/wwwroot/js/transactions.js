@@ -80,6 +80,9 @@ function saveTransaction() {
         dataType: "json",
         data: JSON.stringify(transaction),
         success: function (data) {
+            if (data == "Success") {
+                window.location.href = '../Transactions/Index';
+            }
         },
         error: function() {
             alert("Blad, sprobuj ponownie");
@@ -119,7 +122,7 @@ function checkAvailability($input) {
             console.log(data.message + " =message");
 
             if (data.message !== "available") {
-                alert("nie ma tyle produktow! mozesz uzyc tylko " + data.maxAvaiability);
+                alert("Nie ma tylu produktow! Mozesz uzyc tylko " + data.maxAvaiability);
                 $input.val(data.maxAvaiability);
                 calculatePrices($input);
             }

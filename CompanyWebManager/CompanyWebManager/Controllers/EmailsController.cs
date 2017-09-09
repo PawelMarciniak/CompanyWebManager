@@ -89,20 +89,23 @@ namespace CompanyWebManager.Controllers
 
         public async Task<IActionResult> ReceiveEmails(string login, string pass)
         {
+            int ownerId = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+
             List<Email> newEmails =  new List<Email>();
-            if (string.IsNullOrEmpty(login))
-            {
-                return View("Index", newEmails);
-            }
+            List<Email> emails = await _context.Emails.Where(s => s.OwnerID == ownerId).ToListAsync();
+            //if (string.IsNullOrEmpty(login))
+            //{
+            //    return View("Index", emails);
+            //}
             //if (!string.IsNullOrEmpty(login))
             //{
             //    StoreData(login, pass);
             //}
 
-            int ownerId = HttpContext.Session.GetObjectFromJson<int>("ownerID");
+           
             newEmails = await es.ReceiveEmails(login, pass);
             HttpContext.Session.SetObjectAsJson(string.Format("ReceivedEmails-{0}", ownerId), newEmails);
-            List<Email> emails = await _context.Emails.Where(s => s.OwnerID == ownerId).ToListAsync();
+            
 
             emails.AddRange(newEmails);
 

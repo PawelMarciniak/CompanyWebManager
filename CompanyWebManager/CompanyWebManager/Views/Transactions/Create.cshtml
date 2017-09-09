@@ -89,12 +89,12 @@
         <input type="button" value="Dodaj produkt" class="btn btn-success" onclick="cloneRow();"/>
     </p>
     <p>
-        <input class="btn btn-success" type="button" value="Stworz transakcje" onclick="saveTransaction();" />
+        <input class="btn btn-success" id="saveTrans" type="button" value="Stworz transakcje" data-request-url="Index" onclick="saveTransaction();" />
     </p>
 </form>
 
 <div>
-    <a class="btn btn-default" asp-action="Index">Powrot do listy transakcji</a>
+    <a class="btn btn-default" id="indexBtn" asp-action="Index">Powrot do listy transakcji</a>
 </div>
 
 @section Scripts {

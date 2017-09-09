@@ -6,6 +6,7 @@ using CompanyWebManager.DataContexts;
 using CompanyWebManager.Models;
 using CompanyWebManager.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace CompanyWebManager.Helpers
 {
@@ -48,13 +49,18 @@ namespace CompanyWebManager.Helpers
         {
             foreach (ProductsViewModel product in data.Products)
             {
-                var quantity = context.Product.Where(p => p.ID == product.ID).Select(p => p.Quantity).First();
-                int newQuaintity = data.Type == 1 ? quantity + product.Quantity : quantity - product.Quantity;
+                //var quantity = context.Product.Where(p => p.ID == product.ID).Select(p => p.Quantity).First();
+                var tmpProduct = context.Product.FirstOrDefault(p => p.ID == product.ID);
+                var quantity = tmpProduct.Quantity;
+                int newQuaintity = data.Type == 1 ? quantity + product.Units : quantity - product.Units;
 
-                product.Quantity = newQuaintity;
+                tmpProduct.Quantity = newQuaintity;
 
-                context.Product.Attach(MapViewToProduct(product));
-                context.Entry(product).Property(u => u.Quantity).IsModified = true;
+                Product newProduct = MapViewToProduct(product);
+
+                //context.Product.Attach(newProduct);
+                context.Entry(tmpProduct).Property(u => u.Quantity).IsModified = true;
+                //context.Entry(tmpProduct).State = EntityState.Modified;
                 context.SaveChanges();
             }
         }

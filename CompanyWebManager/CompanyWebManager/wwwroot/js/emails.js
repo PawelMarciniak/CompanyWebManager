@@ -13,8 +13,6 @@ function sendRequestToController($btnObj) {
     var $tr = $btnObj.closest('tr');
     var myRow = $tr.index();
 
-    console.log(myRow);
-
     var myObj = { "rowNum": myRow, "saved" : true };
 
     $.ajax({

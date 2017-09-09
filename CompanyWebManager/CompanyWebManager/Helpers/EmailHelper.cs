@@ -28,12 +28,14 @@ namespace CompanyWebManager.Helpers
             var emailMessage = new MimeMessage();
             List<string> emptyList = new List<string>();
 
-            List<string> emailTo = !string.IsNullOrEmpty(emailToSend.Receiver) ? emailToSend.Receiver.Split(';').ToList() : emptyList;
+            string emailLogin = login == null ? "webcompanymanager2017@gmail.com" : login;
+
+            List <string> emailTo = !string.IsNullOrEmpty(emailToSend.Receiver) ? emailToSend.Receiver.Split(';').ToList() : emptyList;
             List<string> emailCc = !string.IsNullOrEmpty(emailToSend.CarbonCopy) ? emailToSend.CarbonCopy.Split(';').ToList() : emptyList;
             List<string> emailBcc = !string.IsNullOrEmpty(emailToSend.BlindCarbonCopy) ? emailToSend.BlindCarbonCopy.Split(';').ToList() : emptyList; 
 
 
-            emailMessage.From.Add(new MailboxAddress(login));
+            emailMessage.From.Add(new MailboxAddress(emailLogin));
             emailMessage.To.Add(new MailboxAddress(emailTo[0]));
 
 
@@ -88,8 +90,15 @@ namespace CompanyWebManager.Helpers
                     client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                     await client.ConnectAsync("smtp.gmail.com", 587);
-                    await client.AuthenticateAsync(login, pass);
-                   // await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                    if (string.IsNullOrEmpty(pass))
+                    {
+                        await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                    }
+                    else
+                    {
+                        await client.AuthenticateAsync(emailLogin, pass);
+                    }
+                    
                     await client.SendAsync(emailMessage);
                     await client.DisconnectAsync(true);
                 }
@@ -111,8 +120,14 @@ namespace CompanyWebManager.Helpers
                 client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
                 await client.ConnectAsync("imap.gmail.com", 993, true);
-                await client.AuthenticateAsync(login, pass);
-                //await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                if (string.IsNullOrEmpty(login))
+                {
+                    await client.AuthenticateAsync("webcompanymanager2017@gmail.com", "PawelNa100%");
+                }
+                else
+                {
+                    await client.AuthenticateAsync(login, pass);
+                }
 
                 var inbox = client.Inbox;
                 inbox.Open(FolderAccess.ReadOnly);
@@ -120,7 +135,6 @@ namespace CompanyWebManager.Helpers
                 foreach (var uid in client.Inbox.Search(SearchQuery.NotSeen))
                 {
                     var message = inbox.GetMessage(uid);
-                    //inbox.AddFlags(uid, MessageFlags.Seen, true);
 
                     messages.Add(MapEmails(message, uid));
                 }
@@ -185,7 +199,8 @@ namespace CompanyWebManager.Helpers
 
         public async Task<Email> GetEmailToDisplay(int rowNum, bool saved, ApplicationDb context, ISession session)
         {
-            return saved ? await context.Emails.SingleOrDefaultAsync(m => m.ID == rowNum) : session.GetItemOfSessionList<Email>("ReceivedEmails", rowNum);
+            int ownerId = session.GetObjectFromJson<int>("ownerID");
+            return saved ? await context.Emails.SingleOrDefaultAsync(m => m.ID == rowNum) : session.GetItemOfSessionList<Email>("ReceivedEmails-" + ownerId, rowNum);
         }
     }
 }

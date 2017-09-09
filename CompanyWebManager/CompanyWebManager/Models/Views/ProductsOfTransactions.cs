@@ -20,6 +20,5 @@ namespace CompanyWebManager.Models.Views
         public decimal NetPrice { get; set; }
         public decimal GrossPrice { get; set; }
         public string ProductName { get; set; }
-        public int ownerID { get; set; }
     }
 }

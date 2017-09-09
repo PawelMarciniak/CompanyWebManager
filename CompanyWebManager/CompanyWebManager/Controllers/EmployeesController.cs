@@ -32,8 +32,6 @@ namespace CompanyWebManager.Controllers
 
                 return View(EmployeeMapper.MapEmployeesListToView(employees, _context));
 
-                //var applicationDb = _context.Employee;
-                //return View(await applicationDb.ToListAsync());
             }
             return RedirectToAction("Login", "Account", new { area = "" });
             
@@ -64,7 +62,7 @@ namespace CompanyWebManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,FirstName,LastName,Email,PhoneNumber,Position,Salary")] EmployeesViewModel employee)
+        public async Task<IActionResult> Create(EmployeesViewModel employee)
         {
             if (ModelState.IsValid)
             {

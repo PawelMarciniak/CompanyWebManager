@@ -36,19 +36,10 @@ namespace CompanyWebManager.Controllers
            
         }
 
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var product = await _context.Product
                 .SingleOrDefaultAsync(m => m.ID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
 
             return View(ProductMapper.MapProductToView(product));
         }
@@ -75,16 +66,7 @@ namespace CompanyWebManager.Controllers
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var product = await _context.Product.SingleOrDefaultAsync(m => m.ID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
             return View(ProductMapper.MapProductToView(product));
         }
 
@@ -92,29 +74,11 @@ namespace CompanyWebManager.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Description,NetPrice,GrossPrice")] ProductsViewModel product)
         {
-            if (id != product.ID)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(ProductMapper.MapViewToProduct(product));
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                 _context.Update(ProductMapper.MapViewToProduct(product));
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
             return View(product);
@@ -122,17 +86,8 @@ namespace CompanyWebManager.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var product = await _context.Product
                 .SingleOrDefaultAsync(m => m.ID == id);
-            if (product == null)
-            {
-                return NotFound();
-            }
 
             return View(ProductMapper.MapProductToView(product));
         }
@@ -153,8 +108,6 @@ namespace CompanyWebManager.Controllers
         }
 
         #region Helpers
-
-       
 
         public void PrepareVoivodeshipsAndCountires()
         {

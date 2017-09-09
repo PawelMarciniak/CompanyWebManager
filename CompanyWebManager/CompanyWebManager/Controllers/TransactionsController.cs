@@ -97,14 +97,10 @@ namespace CompanyWebManager.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    try
-                    {
-                        ts.SaveTransaction(transactionData, _context, HttpContext.Session.GetObjectFromJson<int>("ownerID"));
-                    }
-                    catch 
-                    {
-                      return  Json("Error");
-                    }
+
+                ts.SaveTransaction(transactionData, _context, HttpContext.Session.GetObjectFromJson<int>("ownerID"));
+                    
+
                 }
             }
             else

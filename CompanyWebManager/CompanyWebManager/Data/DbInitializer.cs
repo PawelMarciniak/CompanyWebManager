@@ -307,14 +307,20 @@ namespace CompanyWebManager.Data
                 context.SaveChanges();
             }
 
+            if (!context.Users.Any())
+            {
+                context.Database.ExecuteSqlCommand(
+                    "INSERT INTO [dbo].[Users] ([Id], [ConcurrencyStamp], [Email], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [SecurityStamp], [UserName]) VALUES (N\'6f67da5a-2059-4283-b485-7a1a39c671ad\', N\'821a09a3-843d-406c-ab00-017c0695782b\', N\'webcompanymanager2017@gmail.com\', NULL, N\'WEBCOMPANYMANAGER2017@GMAIL.COM\', N\'WEBCOMPANYMANAGER2017@GMAIL.COM\', N\'AQAAAAEAACcQAAAAEHhs3x7UIHr3rPCDoStUyItJTSv5QVXvlMnh5Pff8ND7oWiDKEReAOSPMbAazD/slg==\', N\'949ab286-bd07-4943-82b9-2c635b2c0c4d\', N\'webcompanymanager2017@gmail.com\')");
+
+                context.SaveChanges();
+            }
+
             if (!context.Owners.Any())
             {
                 context.Database.ExecuteSqlCommand("DBCC CHECKIDENT('Owners', RESEED, 0)");
                 var owners = new Owner[]
                 {
-                    new Owner {FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now},
-                    new Owner {FirstName = "janusz", LastName = "januszowy", Created = DateTime.Parse("2017-07-17")},
-                    new Owner {FirstName = "grazyna", LastName = "poplecka", Created = DateTime.Parse("2017-07-15")}
+                    new Owner {FirstName = "Pawel", LastName = "Testowy", Created = DateTime.Now, OwnerEmail = "test12@test.pl"},
                 };
 
                 foreach (Owner o in owners)
@@ -349,7 +355,7 @@ namespace CompanyWebManager.Data
                         PostalCode = "22-333",
                         Voivodeship = 5,
                         Country = 177,
-                        ownerID = 2
+                        ownerID = 1
                     }
 
                 };
